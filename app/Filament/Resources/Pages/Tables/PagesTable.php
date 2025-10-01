@@ -8,6 +8,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
 
 class PagesTable
@@ -27,47 +28,19 @@ class PagesTable
                     ->copyable()
                     ->copyMessage('Slug copié!')
                     ->copyMessageDuration(1500),
-                IconColumn::make('is_homepage')
+                ToggleColumn::make('is_homepage')
                     ->label('Page d\'accueil')
-                    ->boolean()
-                    ->trueIcon('heroicon-o-home')
-                    ->falseIcon('heroicon-o-minus')
-                    ->trueColor('success')
-                    ->falseColor('gray')
-                    ->toggleable()
-                    ->updateStateUsing(function ($record, $state) {
+                    ->beforeStateUpdated(function ($record, $state) {
                         if ($state) {
                             // Si on active is_homepage, désactiver toutes les autres
                             \App\Models\Page::where('id', '!=', $record->id)
                                 ->update(['is_homepage' => false]);
                         }
-                        $record->update(['is_homepage' => $state]);
-                        return $state;
                     }),
-                IconColumn::make('is_in_header')
-                    ->label('Header')
-                    ->boolean()
-                    ->trueIcon('heroicon-o-bars-3')
-                    ->falseIcon('heroicon-o-minus')
-                    ->trueColor('primary')
-                    ->falseColor('gray')
-                    ->toggleable()
-                    ->updateStateUsing(function ($record, $state) {
-                        $record->update(['is_in_header' => $state]);
-                        return $state;
-                    }),
-                IconColumn::make('is_in_footer')
-                    ->label('Footer')
-                    ->boolean()
-                    ->trueIcon('heroicon-o-bars-2')
-                    ->falseIcon('heroicon-o-minus')
-                    ->trueColor('info')
-                    ->falseColor('gray')
-                    ->toggleable()
-                    ->updateStateUsing(function ($record, $state) {
-                        $record->update(['is_in_footer' => $state]);
-                        return $state;
-                    }),
+                ToggleColumn::make('is_in_header')
+                    ->label('Dans le header'),
+                ToggleColumn::make('is_in_footer')
+                    ->label('Dans le footer'),
                 TextColumn::make('status')
                     ->label('Statut')
                     ->badge()

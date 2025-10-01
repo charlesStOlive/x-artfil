@@ -1,193 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap');
 @import "tailwindcss";
+@import '../shared/shared-utilities.css';
+
+@plugin '@tailwindcss/typography';
 
 /* Configuration des sources pour Tailwind */
 @source '../../../resources/views/layouts/front.blade.php';
 @source '../../../resources/views/front/**/*';
 
-/* Variables CSS personnalisées */
-:root {
-    --primary-50: 255 251 235;
-    --primary-100: 254 243 199;
-    --primary-200: 253 230 138;
-    --primary-300: 252 211 77;
-    --primary-400: 251 191 36;
-    --primary-500: 245 158 11;
-    --primary-600: 217 119 6;
-    --primary-700: 180 83 9;
-    --primary-800: 146 64 14;
-    --primary-900: 120 53 15;
-    --primary-950: 69 26 3;
+/* Configuration des fonts avec Tailwind v4 */
+@theme {
+  --font-sans: 'Poppins', ui-sans-serif, system-ui, sans-serif;
+  --font-heading: 'Comfortaa', ui-sans-serif, system-ui, sans-serif;
+  --color-primary: var(--color-art-primary);
+  --color-primary-dark: var(--color-art-primary-dark);
+  --color-secondary: var(--color-art-secondary);
+  --color-secondary-dark: var(--color-art-secondary-dark);
 }
 
-/* Dark mode variables */
-.dark {
-    --tw-bg-opacity: 1;
-    --tw-text-opacity: 1;
+/* Configuration de base */
+html {
+    scroll-behavior: smooth;
 }
 
-/* Custom components CSS natif */
-.btn-primary {
-    background-color: rgb(217 119 6);
-    color: white;
-    font-weight: 500;
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    transition: all 0.2s;
-    outline: none;
-    border: none;
-    cursor: pointer;
+body {
+    font-family: var(--font-sans);
 }
 
-.btn-primary:hover {
-    background-color: rgb(180 83 9);
-    transform: scale(1.05);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-}
 
-.btn-primary:focus {
-    box-shadow: 0 0 0 2px rgb(245 158 11);
-}
+/* Les utilitaires communes sont maintenant dans shared-utilities.css */
 
-.btn-secondary {
-    background-color: rgb(229 231 235);
-    color: rgb(17 24 39);
-    font-weight: 500;
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    transition: all 0.2s;
-    outline: none;
-    border: none;
-    cursor: pointer;
-}
-
-.btn-secondary:hover {
-    background-color: rgb(209 213 219);
-}
-
-.dark .btn-secondary {
-    background-color: rgb(55 65 81);
-    color: white;
-}
-
-.dark .btn-secondary:hover {
-    background-color: rgb(75 85 99);
-}
-
-.btn-outline {
-    border: 1px solid rgb(217 119 6);
-    color: rgb(217 119 6);
-    background: transparent;
-    font-weight: 500;
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    transition: all 0.2s;
-    outline: none;
-    cursor: pointer;
-}
-
-.btn-outline:hover {
-    background-color: rgb(217 119 6);
-    color: white;
-}
-
-.card {
-    background-color: white;
-    border-radius: 0.75rem;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    border: 1px solid rgb(229 231 235);
-    padding: 1.5rem;
-    transition: all 0.2s;
-}
-
-.dark .card {
-    background-color: rgb(31 41 55);
-    border-color: rgb(75 85 99);
-}
-
-.card-hover {
-    background-color: white;
-    border-radius: 0.75rem;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    border: 1px solid rgb(229 231 235);
-    padding: 1.5rem;
-    transition: all 0.2s;
-}
-
-.card-hover:hover {
-    transform: scale(1.02);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-}
-
-.dark .card-hover {
-    background-color: rgb(31 41 55);
-    border-color: rgb(75 85 99);
-}
-
-.gradient-bg {
-    background: linear-gradient(to bottom right, rgb(255 251 235), rgb(255 247 237), rgb(254 249 195));
-}
-
-.dark .gradient-bg {
-    background: linear-gradient(to bottom right, rgb(17 24 39), rgb(31 41 55), rgb(17 24 39));
-}
-
-.gradient-text {
-    background: linear-gradient(to right, rgb(217 119 6), rgb(234 88 12));
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;
-}
-
-.glass {
-    background-color: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.dark .glass {
-    background-color: rgba(17, 24, 39, 0.7);
-    border: 1px solid rgba(75, 85, 99, 0.5);
-}
-
-.glass-card {
-    background-color: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 0.75rem;
-    padding: 1.5rem;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-}
-
-.dark .glass-card {
-    background-color: rgba(17, 24, 39, 0.7);
-    border: 1px solid rgba(75, 85, 99, 0.5);
-}
-
-.animate-fade-in {
-    animation: fadeIn 0.5s ease-in-out;
-}
-
-.animate-slide-up {
-    animation: slideUp 0.5s ease-out;
-}
-
-.animate-bounce-subtle {
-    animation: bounceSubtle 2s infinite;
-}
-
-/* Custom utilities */
+/* Custom utilities spécifiques au front avec Tailwind */
 @layer utilities {
-    .text-shadow {
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* Classe utilitaire pour utiliser la font heading */
+    .font-heading {
+        font-family: var(--font-heading);
     }
     
-    .text-shadow-lg {
-        text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* Classes pour les boutons */
+    .btn-base {
+        @apply px-6 py-3 rounded-lg font-medium transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-4 cursor-pointer;
     }
     
-    .backdrop-blur-xs {
-        backdrop-filter: blur(2px);
-    }
+}
+
+
+
+/* Configuration automatique pour prose - les titres utilisent Comfortaa par défaut */
+.prose {
+    --tw-prose-headings: var(--font-heading);
 }
 
 /* Keyframes */
@@ -223,52 +84,6 @@
     60% {
         transform: translateY(-3px);
     }
-}
-
-/* Scroll behavior */
-html {
-    scroll-behavior: smooth;
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar {
-    width: 8px;
-}
-
-::-webkit-scrollbar-track {
-    background-color: rgb(243 244 246);
-}
-
-.dark ::-webkit-scrollbar-track {
-    background-color: rgb(31 41 55);
-}
-
-::-webkit-scrollbar-thumb {
-    background-color: rgb(209 213 219);
-    border-radius: 9999px;
-}
-
-.dark ::-webkit-scrollbar-thumb {
-    background-color: rgb(75 85 99);
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background-color: rgb(156 163 175);
-}
-
-.dark ::-webkit-scrollbar-thumb:hover {
-    background-color: rgb(107 114 128);
-}
-
-/* Selection styling */
-::selection {
-    background-color: rgb(254 215 170);
-    color: rgb(120 53 15);
-}
-
-.dark ::selection {
-    background-color: rgb(146 64 14);
-    color: rgb(254 215 170);
 }
 
 /* Focus styles */

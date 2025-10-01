@@ -2,6 +2,4 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('front.home');
-});
+Route::get('/', App\Livewire\Front\HomePage::class);

@@ -1,0 +1,88 @@
+{
+  "extends": [
+    "stylelint-config-standard"
+  ],
+  "rules": {
+    "at-rule-no-unknown": [
+      true,
+      {
+        "ignoreAtRules": [
+          "tailwind",
+          "apply",
+          "layer",
+          "config",
+          "theme",
+          "source",
+          "import-glob",
+          "variant"
+        ]
+      }
+    ],
+    "function-no-unknown": [
+      true,
+      {
+        "ignoreFunctions": [
+          "theme",
+          "screen"
+        ]
+      }
+    ],
+    "property-no-unknown": [
+      true,
+      {
+        "ignoreProperties": [
+          "composes",
+          "contain"
+        ]
+      }
+    ],
+    "selector-pseudo-class-no-unknown": [
+      true,
+      {
+        "ignorePseudoClasses": [
+          "global",
+          "where"
+        ]
+      }
+    ],
+    "selector-type-no-unknown": [
+      true,
+      {
+        "ignoreTypes": ["/^fi-/", "/^:is/"]
+      }
+    ],
+    "no-invalid-position-at-import-rule": null,
+    "import-notation": null,
+    "media-query-no-invalid": null,
+    "annotation-no-unknown": [
+      true,
+      {
+        "ignoreAnnotations": ["default"]
+      }
+    ],
+    "no-descending-specificity": null,
+    "keyframes-name-pattern": null,
+    "color-hex-length": null,
+    "alpha-value-notation": null,
+    "comment-empty-line-before": null,
+    "rule-empty-line-before": [
+      "always-multi-line",
+      {
+        "except": ["first-nested"],
+        "ignore": ["after-comment", "inside-block"]
+      }
+    ],
+    "declaration-property-value-no-unknown": [
+      true,
+      {
+        "ignoreProperties": {
+          "font-family": ["/theme/", "/var\\(--/"]
+        }
+      }
+    ],
+    "color-function-notation": null,
+    "color-function-alias-notation": null,
+    "no-duplicate-selectors": null,
+    "value-keyword-case": null
+  }
+}
