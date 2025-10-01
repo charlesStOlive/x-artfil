@@ -4,11 +4,11 @@
         <section class="gradient-bg py-20 lg:py-32">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center observe-me">
-                    <h1 class="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6 text-shadow">
+                    <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-6 text-shadow">
                         Bienvenue sur 
                         <span class="gradient-text">X-Artfil</span>
                     </h1>
-                    <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
+                    <p class="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto">
                         Une application moderne développée avec Laravel et Filament, 
                         offrant une expérience utilisateur exceptionnelle.
                     </p>
@@ -26,13 +26,13 @@
     </x-slot:hero>
 
     <!-- Features Section -->
-    <section id="features" class="py-20 bg-white dark:bg-gray-900">
+    <section id="features" class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16 observe-me">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                     Fonctionnalités principales
                 </h2>
-                <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">
                     Découvrez les outils puissants qui font de X-Artfil une solution complète.
                 </p>
             </div>
@@ -41,14 +41,14 @@
                 <!-- Feature 1 -->
                 <div class="card-hover observe-me" x-data="{ hover: false }" @mouseenter="hover = true" @mouseleave="hover = false">
                     <div class="flex items-center mb-4">
-                        <div class="p-3 bg-amber-100 dark:bg-amber-900 rounded-lg mr-4" :class="{ 'scale-110': hover }">
-                            <svg class="w-6 h-6 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="p-3 bg-amber-100 rounded-lg mr-4" :class="{ 'scale-110': hover }">
+                            <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                             </svg>
                         </div>
-                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Performance</h3>
+                        <h3 class="text-xl font-semibold text-gray-900">Performance</h3>
                     </div>
-                    <p class="text-gray-600 dark:text-gray-300">
+                    <p class="text-gray-600">
                         Interface ultra-rapide avec Alpine.js et optimisations Vite pour une expérience fluide.
                     </p>
                 </div>
@@ -56,14 +56,14 @@
                 <!-- Feature 2 -->
                 <div class="card-hover observe-me" x-data="{ hover: false }" @mouseenter="hover = true" @mouseleave="hover = false">
                     <div class="flex items-center mb-4">
-                        <div class="p-3 bg-amber-100 dark:bg-amber-900 rounded-lg mr-4" :class="{ 'scale-110': hover }">
-                            <svg class="w-6 h-6 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="p-3 bg-amber-100 rounded-lg mr-4" :class="{ 'scale-110': hover }">
+                            <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
                             </svg>
                         </div>
-                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Sécurité</h3>
+                        <h3 class="text-xl font-semibold text-gray-900">Sécurité</h3>
                     </div>
-                    <p class="text-gray-600 dark:text-gray-300">
+                    <p class="text-gray-600">
                         Protection avancée avec Laravel et panneau d'administration sécurisé Filament.
                     </p>
                 </div>
@@ -71,30 +71,30 @@
                 <!-- Feature 3 -->
                 <div class="card-hover observe-me" x-data="{ hover: false }" @mouseenter="hover = true" @mouseleave="hover = false">
                     <div class="flex items-center mb-4">
-                        <div class="p-3 bg-amber-100 dark:bg-amber-900 rounded-lg mr-4" :class="{ 'scale-110': hover }">
-                            <svg class="w-6 h-6 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="p-3 bg-amber-100 rounded-lg mr-4" :class="{ 'scale-110': hover }">
+                            <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
                             </svg>
                         </div>
-                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">UX/UI</h3>
+                        <h3 class="text-xl font-semibold text-gray-900">UX/UI</h3>
                     </div>
-                    <p class="text-gray-600 dark:text-gray-300">
-                        Design moderne et responsive avec mode sombre automatique et animations fluides.
+                    <p class="text-gray-600">
+                        Design moderne et responsive avec animations fluides et expérience utilisateur optimisée.
                     </p>
                 </div>
 
                 <!-- Feature 4 -->
                 <div class="card-hover observe-me" x-data="{ hover: false }" @mouseenter="hover = true" @mouseleave="hover = false">
                     <div class="flex items-center mb-4">
-                        <div class="p-3 bg-amber-100 dark:bg-amber-900 rounded-lg mr-4" :class="{ 'scale-110': hover }">
-                            <svg class="w-6 h-6 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="p-3 bg-amber-100 rounded-lg mr-4" :class="{ 'scale-110': hover }">
+                            <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                             </svg>
                         </div>
-                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Administration</h3>
+                        <h3 class="text-xl font-semibold text-gray-900">Administration</h3>
                     </div>
-                    <p class="text-gray-600 dark:text-gray-300">
+                    <p class="text-gray-600">
                         Panneau d'administration complet avec Filament v4 pour gérer facilement votre contenu.
                     </p>
                 </div>
@@ -102,14 +102,14 @@
                 <!-- Feature 5 -->
                 <div class="card-hover observe-me" x-data="{ hover: false }" @mouseenter="hover = true" @mouseleave="hover = false">
                     <div class="flex items-center mb-4">
-                        <div class="p-3 bg-amber-100 dark:bg-amber-900 rounded-lg mr-4" :class="{ 'scale-110': hover }">
-                            <svg class="w-6 h-6 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="p-3 bg-amber-100 rounded-lg mr-4" :class="{ 'scale-110': hover }">
+                            <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4"/>
                             </svg>
                         </div>
-                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Personnalisation</h3>
+                        <h3 class="text-xl font-semibold text-gray-900">Personnalisation</h3>
                     </div>
-                    <p class="text-gray-600 dark:text-gray-300">
+                    <p class="text-gray-600">
                         Thèmes personnalisables et composants réutilisables pour s'adapter à vos besoins.
                     </p>
                 </div>
@@ -117,14 +117,14 @@
                 <!-- Feature 6 -->
                 <div class="card-hover observe-me" x-data="{ hover: false }" @mouseenter="hover = true" @mouseleave="hover = false">
                     <div class="flex items-center mb-4">
-                        <div class="p-3 bg-amber-100 dark:bg-amber-900 rounded-lg mr-4" :class="{ 'scale-110': hover }">
-                            <svg class="w-6 h-6 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="p-3 bg-amber-100 rounded-lg mr-4" :class="{ 'scale-110': hover }">
+                            <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
                             </svg>
                         </div>
-                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Évolutivité</h3>
+                        <h3 class="text-xl font-semibold text-gray-900">Évolutivité</h3>
                     </div>
-                    <p class="text-gray-600 dark:text-gray-300">
+                    <p class="text-gray-600">
                         Architecture modulaire Laravel permettant une croissance et une maintenance simplifiées.
                     </p>
                 </div>
@@ -133,13 +133,13 @@
     </section>
 
     <!-- Demo Section -->
-    <section class="py-20 bg-gray-50 dark:bg-gray-800">
+    <section class="py-20 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16 observe-me">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                     Démonstration interactive
                 </h2>
-                <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">
                     Testez les composants Alpine.js en action avec ces exemples interactifs.
                 </p>
             </div>
@@ -147,17 +147,17 @@
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <!-- Accordion Demo -->
                 <div class="glass-card observe-me" x-data="accordion()">
-                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Accordéon interactif</h3>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-4">Accordéon interactif</h3>
                     
                     <div class="space-y-2">
-                        <div class="border border-gray-200 dark:border-gray-600 rounded-lg">
-                            <button @click="toggle()" class="w-full px-4 py-3 text-left font-medium text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors flex justify-between items-center">
+                        <div class="border border-gray-200 rounded-lg">
+                            <button @click="toggle()" class="w-full px-4 py-3 text-left font-medium text-gray-900 hover:bg-gray-50 transition-colors flex justify-between items-center">
                                 <span>Qu'est-ce que X-Artfil ?</span>
                                 <svg class="w-5 h-5 transform transition-transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                                 </svg>
                             </button>
-                            <div x-show="open" x-transition class="px-4 pb-3 text-gray-600 dark:text-gray-300">
+                            <div x-show="open" x-transition class="px-4 pb-3 text-gray-600">
                                 X-Artfil est une application web moderne construite avec Laravel et Filament, offrant une interface utilisateur riche et des fonctionnalités d'administration avancées.
                             </div>
                         </div>
@@ -166,7 +166,7 @@
 
                 <!-- Notification Demo -->
                 <div class="glass-card observe-me">
-                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Système de notifications</h3>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-4">Système de notifications</h3>
                     <div class="space-y-4">
                         <button @click="addNotification('Notification de succès!', 'success')" class="btn-primary w-full">
                             Notification de succès
@@ -186,16 +186,16 @@
     <!-- Modal Demo -->
     <div x-data="modal()" @open-demo-modal.window="open()" @keydown.escape.window="closeOnEscape($event)">
         <div x-show="show" x-transition.opacity class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50" @click="close()">
-            <div x-show="show" x-transition class="bg-white dark:bg-gray-800 rounded-xl max-w-md w-full p-6" @click.stop>
+            <div x-show="show" x-transition class="bg-white rounded-xl max-w-md w-full p-6" @click.stop>
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Découvrir X-Artfil</h3>
-                    <button @click="close()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
+                    <h3 class="text-xl font-semibold text-gray-900">Découvrir X-Artfil</h3>
+                    <button @click="close()" class="text-gray-400 hover:text-gray-600">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                         </svg>
                     </button>
                 </div>
-                <p class="text-gray-600 dark:text-gray-300 mb-6">
+                <p class="text-gray-600 mb-6">
                     Cette modale démontre l'utilisation d'Alpine.js pour créer des interactions fluides et modernes.
                 </p>
                 <div class="flex space-x-4">
