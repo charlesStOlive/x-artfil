@@ -16,18 +16,12 @@
                 <a href="{{ url('/') }}" class="text-gray-700 hover:text-amber-600 px-3 py-2 text-sm font-medium transition-colors">
                     Accueil
                 </a>
-                <a href="#" class="text-gray-700 hover:text-amber-600 px-3 py-2 text-sm font-medium transition-colors">
-                    Services
-                </a>
-                <a href="#" class="text-gray-700 hover:text-amber-600 px-3 py-2 text-sm font-medium transition-colors">
-                    À propos
-                </a>
-                <a href="#" class="text-gray-700 hover:text-amber-600 px-3 py-2 text-sm font-medium transition-colors">
-                    Contact
-                </a>
-                <a href="{{ url('/admin') }}" class="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-                    Administration
-                </a>
+                @foreach($headerPages as $page)
+                    <a href="{{ route('page', ['slug' => $page->slug]) }}" class="text-gray-700 hover:text-amber-600 px-3 py-2 text-sm font-medium transition-colors">
+                        {{ $page->titre }}
+                    </a>
+                @endforeach
+                
             </div>
 
             <!-- Mobile menu button -->
@@ -47,18 +41,12 @@
                 <a href="{{ url('/') }}" class="text-gray-700 hover:text-amber-600 px-3 py-2 text-sm font-medium transition-colors">
                     Accueil
                 </a>
-                <a href="#" class="text-gray-700 hover:text-amber-600 px-3 py-2 text-sm font-medium transition-colors">
-                    Services
-                </a>
-                <a href="#" class="text-gray-700 hover:text-amber-600 px-3 py-2 text-sm font-medium transition-colors">
-                    À propos
-                </a>
-                <a href="#" class="text-gray-700 hover:text-amber-600 px-3 py-2 text-sm font-medium transition-colors">
-                    Contact
-                </a>
-                <a href="{{ url('/admin') }}" class="bg-amber-600 hover:bg-amber-700 text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors text-center">
-                    Administration
-                </a>
+                @foreach($headerPages as $page)
+                    <a href="{{ route('page', ['slug' => $page->slug]) }}" class="text-gray-700 hover:text-amber-600 px-3 py-2 text-sm font-medium transition-colors">
+                        {{ $page->titre }}
+                    </a>
+                @endforeach
+                
             </div>
         </div>
     </div>

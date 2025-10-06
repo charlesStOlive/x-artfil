@@ -24,17 +24,17 @@
     <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 
     <!-- Styles -->
-    @vite(['resources/css/front/theme.css', 'resources/js/front/app.js'])
+    @vite(['resources/css/front/front.css', 'resources/js/front/front.js'])
     @livewireStyles
 
     @stack('styles')
 </head>
-<body class="font-sans antialiased bg-gray-50" x-data="frontApp()">
+<body class="font-sans antialiased bg-white" x-data="frontApp()">
     <!-- Header -->
     @include('partials.header')
 
     <!-- Main Content -->
-    <main class="min-h-screen">
+    <main class="mb-8">
         {{ $slot }}
     </main>
 

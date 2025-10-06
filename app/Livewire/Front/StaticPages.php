@@ -5,19 +5,17 @@ namespace App\Livewire\Front;
 use App\Models\Page;
 use Livewire\Component;
 
-class HomePage extends Component
+class StaticPages extends Component
 {
 
     public $page;
     public $slug;
 
-    public function mount($slug = 'home')
+    public function mount($slug)
     {
         $this->slug = $slug;
-        
         // Récupérer la page par slug ou afficher 404
-        $this->page = Page::where('is_homepage', true)->first();
-        \Log::info($this->page);
+        $this->page = Page::where('slug', $slug)->first();
         if (!$this->page) {
             abort(404, "Page '{$slug}' non trouvée");
         }

@@ -53,6 +53,13 @@
     mask-size: contain;
 }
 
+.mask-brush-169 {
+    -webkit-mask: url('/public/images/front/svgs/brushc169.svg') no-repeat center;
+    mask: url('/public/images/front/svgs/brushc169.svg') no-repeat center;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+}
+
 /* Animations qui étaient dans front/theme.css */
 .animate-fade-in {
     animation: fadeIn 0.5s ease-in-out;

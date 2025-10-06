@@ -5,6 +5,7 @@ namespace App\Filament\Forms\Components\RichEditor\Plugins;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\RichEditor\EditorCommand;
 use Filament\Forms\Components\RichEditor\Plugins\Contracts\RichContentPlugin;
@@ -74,50 +75,75 @@ class PageLinkPlugin implements RichContentPlugin
                         ->label('Texte du lien')
                         ->required()
                         ->placeholder('Texte à afficher'),
-                    Select::make('type')
+                    Select::make('type_lien')
                         ->label('Type de lien')
                         ->options([
                             'page' => 'Page du site',
-                            'anchor' => 'Ancre (même page)', 
-                            'external' => 'URL externe',
+                            'externe' => 'URL externe',
                         ])
                         ->default('page')
                         ->live()
                         ->required(),
-                    Select::make('page_slug')
+                    Select::make('page_id')
                         ->label('Page')
-                        ->options(function () {
-                            return Page::where('status', 'published')
-                                ->pluck('titre', 'slug')
-                                ->toArray();
-                        })
-                        ->searchable()
-                        ->required()
-                        ->visible(fn ($get) => $get('type') === 'page'),
-                    TextInput::make('anchor')
+                        ->options([
+                            'same_page' => 'Rester sur la page',
+                            ...Page::where('status', 'published')->pluck('titre', 'slug')->toArray()
+                        ])
+                        ->default('same_page')
+                        ->selectablePlaceholder(false)
+                        ->visible(fn($get) => $get('type_lien') === 'page')
+                        ->live(),
+                    TextInput::make('ancre')
                         ->label('Ancre')
                         ->placeholder('ex: #ma-section')
-                        ->required()
-                        ->visible(fn ($get) => $get('type') === 'anchor'),
-                    TextInput::make('external_url')
+                        ->visible(fn($get) => $get('type_lien') === 'page')
+                        ->helperText('Optionnel : section spécifique de la page'),
+                    TextInput::make('url_externe')
                         ->label('URL externe')
                         ->placeholder('https://exemple.com')
                         ->url()
                         ->required()
-                        ->visible(fn ($get) => $get('type') === 'external'),
+                        ->visible(fn($get) => $get('type_lien') === 'externe'),
+                    Toggle::make('nouvel_onglet')
+                        ->label('Ouvrir dans un nouvel onglet')
+                        ->default(false)
+                        ->visible(fn($get) => $get('type_lien') === 'externe' || ($get('type_lien') === 'page' && $get('page_id') !== 'same_page')),
                 ])
                 ->action(function (array $arguments, array $data, RichEditor $component): void {
                     // Construire l'URL selon le type
-                    $href = match($data['type']) {
-                        'page' => '/' . $data['page_slug'],
-                        'anchor' => $data['anchor'],
-                        'external' => $data['external_url'],
-                        default => '#'
-                    };
+                    if ($data['type_lien'] === 'page') {
+                        if ($data['page_id'] === 'same_page') {
+                            // Rester sur la même page - utiliser l'ancre s'il y en a une
+                            $href = !empty($data['ancre']) ? $data['ancre'] : '#';
+                        } else {
+                            // Lien vers une autre page
+                            $href = '/' . $data['page_id'];
+                            if (!empty($data['ancre'])) {
+                                $href .= $data['ancre'];
+                            }
+                        }
+                    } else {
+                        // URL externe
+                        $href = $data['url_externe'];
+                    }
 
                     // Préparer les attributs du lien
                     $linkAttributes = ['href' => $href];
-                    if ($data['type'] === 'external') {
+                    
+                    // Gestion de l'ouverture dans un nouvel onglet
+                    $openNewTab = false;
+                    
+                    // Vérifier explicitement si la case à cocher est activée
+                    if (isset($data['nouvel_onglet']) && $data['nouvel_onglet'] === true) {
+                        // La case est cochée, vérifier si c'est un cas où c'est autorisé
+                        if ($data['type_lien'] === 'externe' || 
+                            ($data['type_lien'] === 'page' && $data['page_id'] !== 'same_page')) {
+                            $openNewTab = true;
+                        }
+                    }
+
+                    if ($openNewTab) {
                         $linkAttributes['target'] = '_blank';
                         $linkAttributes['rel'] = 'noopener noreferrer';
                     }
@@ -127,7 +153,7 @@ class PageLinkPlugin implements RichContentPlugin
                     if (empty($selectedText)) {
                         // Pas de texte sélectionné : insérer le lien complet avec le texte
                         $linkHtml = '<a href="' . htmlspecialchars($href) . '"';
-                        if ($data['type'] === 'external') {
+                        if ($openNewTab) {
                             $linkHtml .= ' target="_blank" rel="noopener noreferrer"';
                         }
                         $linkHtml .= '>' . htmlspecialchars($data['text']) . '</a>';
@@ -137,6 +163,7 @@ class PageLinkPlugin implements RichContentPlugin
                         ], editorSelection: $arguments['editorSelection']);
                     } else {
                         // Texte sélectionné : appliquer le lien au texte existant
+                        
                         $component->runCommands([
                             EditorCommand::make('setLink', arguments: [$linkAttributes]),
                         ], editorSelection: $arguments['editorSelection']);

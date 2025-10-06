@@ -21,6 +21,22 @@ class BlockDataParser
     }
 
     /**
+     * Créer une instance depuis un bloc et ses données directement
+     *
+     * @param array $blockData Données du bloc ($block['data'])
+     * @param string $mode Mode d'affichage
+     * @param mixed|null $page Instance de page
+     * @return static
+     */
+    public static function fromBlockData(array $blockData, string $mode = 'front', mixed $page = null): static
+    {
+        $blockId = $blockData['block_id'] ?? null;
+        $instance = new static($mode, $blockId, $page);
+        $instance->blockData = $blockData; // Stocker les données pour un accès direct
+        return $instance;
+    }
+
+    /**
      * Obtenir l'URL d'une image (FileUpload simple)
      *
      * @param mixed $image Image du bloc (string path)
@@ -58,7 +74,7 @@ class BlockDataParser
         }
 
         if (is_string($content)) {
-            return $this->processLinks($content);
+            return $this->cleanInternalLinks($content);
         }
 
         if (is_array($content)) {
@@ -69,7 +85,7 @@ class BlockDataParser
                 ]);
                 
             $html = $renderer->toHtml();
-            return $this->processLinks($html);
+            return $this->cleanInternalLinks($html);
         }
 
         return null;
@@ -144,39 +160,69 @@ class BlockDataParser
         return null;
     }
 
-
+    
 
     /**
-     * Créer une instance depuis les props d'un composant Blade
+     * Obtenir une valeur de données depuis section_styles ou fallback vers la racine
      *
-     * @param array $props Props du composant (block, mode, page)
-     * @return static
+     * @param string $key Clé de la donnée (background_image, couche_blanc, direction_couleur, etc.)
+     * @param mixed $default Valeur par défaut
+     * @return mixed
      */
-    public static function fromBladeProps(array $props): static
+    public function getSectionStyleFrom(string $key, mixed $default = null): mixed
     {
-        $mode = $props['mode'] ?? 'front';
-        $blockId = $props['block']['data']['block_id'] ?? null;
-        $page = $props['page'] ?? null;
-
-        return new static($mode, $blockId, $page);
+        $blockData = $this->blockData ?? [];
+        
+        // D'abord chercher dans section_styles
+        if (isset($blockData['section_styles'][$key])) {
+            return $blockData['section_styles'][$key];
+        }
+        
+        // Fallback vers la racine pour compatibilité avec les anciens blocs
+        return $this->getData($blockData, $key, $default);
     }
 
     /**
-     * Créer une instance depuis un bloc et ses données directement
+     * Obtenir l'URL d'une image depuis section_styles ou fallback vers la racine
      *
-     * @param array $blockData Données du bloc ($block['data'])
-     * @param string $mode Mode d'affichage
-     * @param mixed|null $page Instance de page
-     * @return static
+     * @param string $key Clé de l'image (background_image, etc.)
+     * @return string|null
      */
-    public static function fromBlockData(array $blockData, string $mode = 'front', mixed $page = null): static
+    public function getSectionImageFrom(string $key): ?string
     {
-        $blockId = $blockData['block_id'] ?? null;
+        $blockData = $this->blockData ?? [];
+        
+        // D'abord chercher dans section_styles
+        if (isset($blockData['section_styles'][$key])) {
+            return $this->getImageUrl($blockData['section_styles'][$key]);
+        }
+        
+        // Fallback vers la racine pour compatibilité avec les anciens blocs
+        return $this->getImageUrl($blockData[$key] ?? null);
+    }
 
-        $instance = new static($mode, $blockId, $page);
-        $instance->blockData = $blockData; // Stocker les données pour un accès direct
-
-        return $instance;
+    /**
+     * Obtenir toutes les données de style de section formatées pour le composant section
+     *
+     * @return array
+     */
+    public function getSectionStyles(): array
+    {
+        $blockData = $this->blockData ?? [];
+        $sectionStyles = $blockData['section_styles'] ?? [];
+        
+        // Données avec fallback vers la racine pour compatibilité
+        $backgroundImage = $this->getSectionImageFrom('background_image');
+        $coucheBlanc = $this->getSectionStyleFrom('couche_blanc', 'aucun');
+        $directionCouleur = $this->getSectionStyleFrom('direction_couleur', 'aucun');
+        $is_hidden = $this->getSectionStyleFrom('is_hidden', false);
+        
+        return [
+            'background_image' => $backgroundImage,
+            'couche_blanc' => $coucheBlanc,
+            'direction_couleur' => $directionCouleur,
+            'is_hidden' => $is_hidden,
+        ];
     }
 
     /**
@@ -232,124 +278,61 @@ class BlockDataParser
     }
 
     /**
-     * Créer un format de bloc unifié à partir des variables de preview Filament
-     * Cette méthode évite d'avoir à reconstruire manuellement le tableau $block
-     * 
-     * @param string $blockType Type de bloc (hero, testimonial, text-photo, etc.)
-     * @param array $previewVariables Variables passées par Filament à la preview (get_defined_vars())
-     * @param string $mode Mode d'affichage ('preview', 'front', etc.)
-     * @return array Format de bloc unifié
-     */
-    public static function createBlockFromPreview(string $blockType, array $previewVariables, string $mode = 'preview'): array
-    {
-        // Exclure les variables système de Blade
-        $systemVariables = [
-            '__env', '__data', 'obLevel', '__path', 'app', 'errors', 'settings', 'user', 
-            'component', 'attributes', 'slot', '__componentOriginal', '__currentLoopData', 
-            'loop', '__isset_validation_factory'
-        ];
-
-        // Filtrer les variables système et garder seulement les données du bloc
-        $blockData = [];
-        foreach ($previewVariables as $key => $value) {
-            if (!in_array($key, $systemVariables) && !str_starts_with($key, '__')) {
-                $blockData[$key] = $value;
-            }
-        }
-
-        return [
-            'type' => $blockType,
-            'data' => $blockData
-        ];
-    }
-
-    /**
-     * Traite le contenu HTML pour convertir les merge tags et liens relatifs
+     * Récupérer toutes les données de configuration photo depuis le statePath
      *
-     * @param string|null $content Contenu HTML à traiter
-     * @return string|null
+     * @return array Tableau avec 'url', 'display_type', 'position'
      */
-    public function processLinks(?string $content): ?string
+    public function getDataForPhotoFrom(?string $key = 'photo_config'): array
     {
-        if (!$content) {
-            return $content;
-        }
-
-        // Traiter les merge tags d'abord
-        $content = $this->processMergeTags($content);
-
-        // En mode preview, pas de traitement des liens relatifs
-        if ($this->mode === 'preview') {
-            return $content;
-        }
-
-        // Remplacer les liens relatifs par des URLs absolues
-        $content = preg_replace_callback(
-            '/<a([^>]*?)href=["\'](\/[^"\']*)["\']([^>]*?)>/i',
-            function ($matches) {
-                $beforeHref = $matches[1];
-                $href = $matches[2];
-                $afterHref = $matches[3];
-
-                // Construire l'URL absolue
-                $absoluteUrl = rtrim(config('app.url'), '/') . $href;
-
-                return '<a' . $beforeHref . 'href="' . $absoluteUrl . '"' . $afterHref . '>';
-            },
-            $content
-        );
-
-        return $content;
+        $photoConfig = $this->blockData[$key] ?? [];
+        
+        return [
+            'url' => $this->getImageUrl($photoConfig['url'] ?? null),
+            'display_type' => $photoConfig['display_type'] ?? 'mask_brush_square',
+            'position' => $photoConfig['position'] ?? 'center',
+        ];
     }
 
     /**
-     * Remplace les merge tags par les vrais liens
+     * Nettoyer les liens internes qui ne devraient pas avoir target="_blank"
+     * Solution temporaire en attendant la correction du bug TipTap PHP
+     * @see https://github.com/filamentphp/filament/issues/16829
      *
      * @param string $content
      * @return string
      */
-    private function processMergeTags(string $content): string
+    private function cleanInternalLinks(string $content): string
     {
-        // Remplacer les merge tags de pages par de vrais liens
-        $content = preg_replace_callback(
-            '/\{page_([^}]+)\}/',
+        // Nettoyer les liens internes (qui commencent par / ou #) 
+        // qui ont target="_blank" alors qu'ils ne devraient pas
+        return preg_replace_callback(
+            '/<a([^>]*?)href=["\'](\/[^"\']*|#[^"\']*)["\']([^>]*?)>/i',
             function ($matches) {
-                $slug = $matches[1];
-                $page = \App\Models\Page::where('slug', $slug)->where('status', 'published')->first();
+                $beforeHref = $matches[1];
+                $href = $matches[2];
+                $afterHref = $matches[3];
                 
-                if ($page) {
-                    return '<a href="/' . $slug . '">' . htmlspecialchars($page->titre) . '</a>';
-                }
+                // Supprimer target="_blank" et rel="noopener noreferrer nofollow" des liens internes
+                $beforeHref = preg_replace('/\s*target=["\']_blank["\']/i', '', $beforeHref);
+                $afterHref = preg_replace('/\s*target=["\']_blank["\']/i', '', $afterHref);
+                $beforeHref = preg_replace('/\s*rel=["\']noopener noreferrer nofollow["\']/i', '', $beforeHref);
+                $afterHref = preg_replace('/\s*rel=["\']noopener noreferrer nofollow["\']/i', '', $afterHref);
                 
-                return $matches[0]; // Retourner le tag original si la page n'existe pas
+                return '<a' . $beforeHref . 'href="' . $href . '"' . $afterHref . '>';
             },
             $content
         );
-
-        // Remplacer d'autres merge tags
-        $replacements = [
-            '{site_url}' => '<a href="' . config('app.url') . '">' . config('app.name') . '</a>',
-        ];
-
-        foreach ($replacements as $tag => $replacement) {
-            $content = str_replace($tag, $replacement, $content);
-        }
-
-        return $content;
     }
 
     /**
-     * Méthode de convenance pour créer directement un parser depuis les variables de preview
-     * 
-     * @param string $blockType Type de bloc
-     * @param array $previewVariables Variables de preview 
-     * @param string $mode Mode d'affichage
-     * @param mixed|null $page Instance de page
-     * @return static
+     * Extraire les données depuis les variables définies dans Blade
+     * Utilisé quand les données de bloc sont vides pour le mode preview
+     *
+     * @return array
      */
-    public static function fromPreviewVariables(string $blockType, array $previewVariables, string $mode = 'preview', mixed $page = null): static
+    public static function extractDataFromBladeVars($vars): array
     {
-        $block = self::createBlockFromPreview($blockType, $previewVariables, $mode);
-        return self::fromBlockData($block['data'], $mode, $page);
+        $systemVars = ['__env', '__data', 'obLevel', '__path', 'app', 'errors', 'settings', 'user', 'component', 'attributes', 'slot'];
+        return array_diff_key($vars, array_flip($systemVars));
     }
 }

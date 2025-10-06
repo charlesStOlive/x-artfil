@@ -20,6 +20,7 @@ class Page extends Model
         'is_in_header',
         'is_in_footer',
         'published_at',
+        'order',
     ];
 
     protected $casts = [
@@ -30,6 +31,7 @@ class Page extends Model
         'is_in_header' => 'boolean',
         'is_in_footer' => 'boolean',
         'published_at' => 'datetime',
+        'order' => 'integer',
     ];
 
     /**

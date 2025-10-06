@@ -8,6 +8,7 @@ use Filament\Schemas\Components\Section;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Forms\Components\FileUpload;
 use Filament\Schemas\Components\Fieldset;
+use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Infolists\Components\ImageEntry;
 use App\Filament\Forms\Components\OptimizingFileUpload;
 
@@ -48,7 +49,35 @@ class AppServiceProvider extends ServiceProvider
 
         Section::configureUsing(fn(Section $section) => $section
             ->columnSpanFull());
+            
+        Tab::configureUsing(fn(Tab $tab) => $tab
+            ->columnSpanFull());
 
-        
+
+        // Partager les données de navigation avec toutes les vues
+        $this->shareNavigationData();
+    }
+
+    /**
+     * Partage les données de navigation avec toutes les vues
+     */
+    private function shareNavigationData(): void
+    {
+        view()->composer(['layouts.front', 'partials.header', 'partials.footer'], function ($view) {
+            $headerPages = \App\Models\Page::where('is_in_header', true)
+                ->where('status', 'published')
+                ->orderBy('order', 'asc')
+                ->get(['titre', 'slug']);
+
+            $footerPages = \App\Models\Page::where('is_in_footer', true)
+                ->where('status', 'published')
+                ->orderBy('order', 'asc')
+                ->get(['titre', 'slug']);
+
+            $view->with([
+                'headerPages' => $headerPages,
+                'footerPages' => $footerPages,
+            ]);
+        });
     }
 }

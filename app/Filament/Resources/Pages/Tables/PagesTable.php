@@ -16,6 +16,8 @@ class PagesTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->reorderable('order')
+            ->defaultSort('order', 'asc')
             ->columns([
                 TextColumn::make('titre')
                     ->label('Titre')
@@ -41,6 +43,10 @@ class PagesTable
                     ->label('Dans le header'),
                 ToggleColumn::make('is_in_footer')
                     ->label('Dans le footer'),
+                TextColumn::make('order')
+                    ->label('Ordre')
+                    ->sortable()
+                    ->toggleable(),
                 TextColumn::make('status')
                     ->label('Statut')
                     ->badge()
