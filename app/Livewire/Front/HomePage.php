@@ -27,7 +27,11 @@ class HomePage extends Component
     public function render()
     {
         return view('livewire.front.static-page')
-            ->layout('layouts.front')
+            ->layout('layouts.front', [
+                'hasForm' => $this->page->has_form,
+                'metaDescription' => $this->page->meta_description,
+                'metaKeywords' => $this->page->meta_keywords,
+            ])
             ->title($this->page->titre);
     }
 }

@@ -30,12 +30,7 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->colors([
-                'primary' => Color::Amber,
-                'danger' => Color::Rose,
-                'gray' => Color::Zinc,
-                'info' => Color::Blue,
-                'success' => Color::Emerald,
-                'warning' => Color::Orange,
+                'primary' => '#B24030',
             ])
             ->font('Inter')
             ->brandName('X-Artfil Admin')

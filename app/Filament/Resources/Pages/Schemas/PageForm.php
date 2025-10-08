@@ -232,8 +232,19 @@ class PageForm
                                 ->label('Afficher dans le header'),
                             Toggle::make('is_in_footer')
                                 ->label('Afficher dans le footer'),
+                            Toggle::make('has_form')
+                                ->label('Afficher le formulaire de contact')
+                                ->helperText('Active l\'affichage du formulaire de contact sur cette page'),
                             TextInput::make('key_word')
                                 ->label('Mots-clés SEO'),
+                            Textarea::make('meta_description')
+                                ->label('Description SEO')
+                                ->helperText('Description pour les moteurs de recherche (160 caractères max)')
+                                ->rows(3)
+                                ->maxLength(160),
+                            TextInput::make('meta_keywords')
+                                ->label('Mots-clés SEO')
+                                ->helperText('Mots-clés séparés par des virgules pour le référencement'),
                             DateTimePicker::make('published_at')
                                 ->label('Date de publication'),
                         ])->columnSpan(1),

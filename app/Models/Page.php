@@ -19,6 +19,9 @@ class Page extends Model
         'is_homepage',
         'is_in_header',
         'is_in_footer',
+        'has_form',
+        'meta_description',
+        'meta_keywords',
         'published_at',
         'order',
     ];
@@ -30,6 +33,7 @@ class Page extends Model
         'is_homepage' => 'boolean',
         'is_in_header' => 'boolean',
         'is_in_footer' => 'boolean',
+        'has_form' => 'boolean',
         'published_at' => 'datetime',
         'order' => 'integer',
     ];

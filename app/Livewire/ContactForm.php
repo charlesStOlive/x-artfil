@@ -6,6 +6,7 @@ use Livewire\Component;
 use Livewire\Attributes\Validate;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Mail;
+use App\Settings\AdminSettings;
 
 class ContactForm extends Component
 {
@@ -93,9 +94,13 @@ class ContactForm extends Component
             'date' => now()->format('d/m/Y H:i'),
         ];
 
-        // Envoi du mail (ajustez selon votre configuration)
-        Mail::send('emails.contact', $data, function($message) {
-            $message->to(config('mail.contact_email', 'contact@votre-site.com'))
+        // Récupération de l'email récepteur depuis les paramètres administrateur
+        $adminSettings = app(AdminSettings::class);
+        $mailRecepteur = $adminSettings->mailRecepteur ?? config('mail.contact_email', 'contact@votre-site.com');
+
+        // Envoi du mail
+        Mail::send('emails.contact', $data, function($message) use ($mailRecepteur) {
+            $message->to($mailRecepteur)
                     ->subject('Nouveau message de contact : ' . $this->objet)
                     ->replyTo($this->email, $this->prenom . ' ' . $this->nom);
         });

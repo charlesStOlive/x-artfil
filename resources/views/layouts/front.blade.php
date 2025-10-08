@@ -5,12 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <meta property="og:title" content="@yield('title', 'Art-Thérapie - Découvrez votre créativité')">
-    <meta property="og:description" content="@yield('description', 'Découvrez l\'art-thérapie avec notre praticien certifié.')">
+    <meta name="description" content="{{ $metaDescription ?? 'Découvrez l\'art-thérapie avec notre praticien certifié.' }}">
+    <meta name="keywords" content="{{ $metaKeywords ?? 'art-thérapie, thérapie, créativité' }}">
+    
+    <meta property="og:title" content="@hasSection('title')@yield('title')@else Art-Thérapie - Découvrez votre créativité @endif">
+    <meta property="og:description" content="{{ $metaDescription ?? 'Découvrez l\'art-thérapie avec notre praticien certifié.' }}">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->current() }}">
 
-    <title>@yield('title', config('app.name', 'X-Artfil'))</title>
+    <title>@hasSection('title')@yield('title')@else{{ config('app.name', 'X-Artfil') }}@endif</title>
 
     {{-- Preconnect pour les performances --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -37,6 +40,11 @@
     <main class="mb-8">
         {{ $slot }}
     </main>
+
+    <!-- Contact Form (conditionnel) -->
+    @if(isset($hasForm) && $hasForm)
+        @include('partials.form')
+    @endif
 
     <!-- Footer -->
     @include('partials.footer')

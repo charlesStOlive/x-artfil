@@ -8,6 +8,7 @@
     "require": {
         "php": "^8.2",
         "filament/filament": "4.0",
+        "filament/spatie-laravel-settings-plugin": "^4.0",
         "intervention/image": "^3.11",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1"
@@ -26,7 +27,10 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "files": [
+            "app/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

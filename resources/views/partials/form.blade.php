@@ -1,37 +1,6 @@
-@props(['block', 'mode' => 'front', 'page' => null])
-
-@php
-    $data = $block['data'] ?? [];
-    $mode = 'front';
-    if (empty($data)) {
-        $allVars = get_defined_vars();
-        $data = \App\Services\BlockDataParser::extractDataFromBladeVars($allVars);
-        $mode = 'preview';
-    }
-
-    $parser = \App\Services\BlockDataParser::fromBlockData($data, $mode, $page);
-    $title = $parser->getHtmlFrom('title');
-    $anchor = $parser->getDataFrom('anchor');
-    $description = $parser->getDataFrom('description');
-    $sectionStyles = $parser->getSectionStyles();
-    $couleurPrimaire = $parser->getDataFrom('couleur_primaire', 'secondary');
-    $styleListes = $parser->getDataFrom('style_listes', 'alternance');
-    $afficherSeparateur = $parser->getDataFrom('afficher_separateur', true);
-@endphp
-
-<x-blocks.shared.section :data="$sectionStyles" :anchor="$anchor ?: ''">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        @if ($title || $description)
-            <div class="text-center mb-16">
-                @if ($title)
-                    <x-blocks.shared.title :title="$title" :couleur-primaire="$couleurPrimaire" :class="'fade-in-up'" />
-                @endif
-                @if ($description)
-                    <x-blocks.shared.description :description="$description" />
-                @endif
-            </div>
-        @endif
-
+<x-blocks.shared.section data="[]" anchor="contact" default-classes="border-t border-gray-200 bg-gray-50 p-4 md:p-16">
+    <div class="max-w-7xl mx-auto">
+        <x-blocks.shared.title title="Formulaire de <strong>contact</strong>" couleur-primaire="primary" :class="'fade-in-up'" />
         <div class="grid md:grid-cols-2 gap-12">
             <!-- Informations de contact -->
             <div class="fade-in-left">
@@ -58,7 +27,7 @@
                         </div>
                         <div>
                             <h4 class="text-lg font-bold text-primary mb-1">Téléphone</h4>
-                            <p class="">{{ admin_setting('telephone', '+33 1 23 45 67 89') }}</p>
+                            <p class="">{{ admin_setting('telephone', '+33 X XX XX XX XX') }}</p>
                         </div>
                     </div>
 
@@ -90,17 +59,10 @@
                 </div>
             </div>
 
-            <!-- Formulaire de contact -->
-            <div class="fade-in-right">
-                @if ($mode != 'preview')
-                    {{-- Composant Livewire pour le formulaire de contact --}}
-                    <livewire:contact-form />
-                @else
-                    <div class="h-64 bg-primary-50 border-2 border-dashed border-primary-300 rounded-lg flex items-center justify-center">
-                        <span class="text-primary-600 italic">Formulaire de contact Livewire</span>
-                    </div>
-                @endif
-            </div>
+
+            {{-- Composant Livewire pour le formulaire de contact --}}
+            <livewire:contact-form />
+
         </div>
     </div>
 </x-blocks.shared.section>
