@@ -217,7 +217,8 @@ class PageForm
                             TextInput::make('titre')
                                 ->required(),
                             TextInput::make('slug')
-                                ->required(),
+                                ->required()
+                                ->suffixAction(self::getPreviewAction()),
                             Select::make('status')
                                 ->options([
                                     'draft' => 'Brouillon',
@@ -235,8 +236,6 @@ class PageForm
                             Toggle::make('has_form')
                                 ->label('Afficher le formulaire de contact')
                                 ->helperText('Active l\'affichage du formulaire de contact sur cette page'),
-                            TextInput::make('key_word')
-                                ->label('Mots-clés SEO'),
                             Textarea::make('meta_description')
                                 ->label('Description SEO')
                                 ->helperText('Description pour les moteurs de recherche (160 caractères max)')
@@ -247,10 +246,28 @@ class PageForm
                                 ->helperText('Mots-clés séparés par des virgules pour le référencement'),
                             DateTimePicker::make('published_at')
                                 ->label('Date de publication'),
-                        ])->columnSpan(1),
+                        ])
+                        ->footerActions([
+                            self::getPreviewAction()
+                                ->label('Prévisualiser la page')
+                                ->button()
+                                ->size('sm'),
+                        ])
+                        ->columnSpan(1),
 
                 ]),
             ]);
+    }
+
+    public static function getPreviewAction(): Action
+    {
+        return Action::make('preview')
+            ->icon('heroicon-o-eye')
+            ->tooltip('Prévisualiser la page')
+            ->url(fn ($get) => $get('slug') ? route('page', ['slug' => $get('slug')]) : null)
+            ->openUrlInNewTab()
+            ->color('gray')
+            ->disabled(fn ($get) => $get('status') !== 'published');
     }
 
     public static function getBase(): array

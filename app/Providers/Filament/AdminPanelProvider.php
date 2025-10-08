@@ -31,6 +31,8 @@ class AdminPanelProvider extends PanelProvider
             ->login()
             ->colors([
                 'primary' => '#B24030',
+                'secondary' => '#F7D463;
+'
             ])
             ->font('Inter')
             ->brandName('X-Artfil Admin')
