@@ -10,11 +10,10 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
-                'resources/css/app.css', 
                 'resources/js/app.js',
-                'resources/css/filament/admin/theme.css',
-                'resources/css/front/theme.css',
-                'resources/js/front/app.js'
+                'resources/css/filament/admin/filament.css',
+                'resources/css/front/front.css',
+                'resources/js/front/front.js'
             ],
             refresh: true,
         }),
