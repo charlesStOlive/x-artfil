@@ -83,3 +83,17 @@ body {
 .prose {
     --tw-prose-headings: var(--font-heading);
 }
+
+.form-input-art {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1px solid #d1d5db;
+        border-radius: 0.75rem;
+        transition: all 0.3s ease;
+    }
+    
+.form-input-art:focus {
+    outline: none;
+    border-color: var(--color-art-primary);
+    box-shadow: 0 0 0 3px rgba(178, 64, 48, 0.1);
+}

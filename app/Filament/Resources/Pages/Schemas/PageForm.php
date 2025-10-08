@@ -189,8 +189,24 @@ class PageForm
                                                     self::getTabStyles(),
                                                 ]),
                                         ])
-
                                         ->preview('components.blocks.new-content'),
+
+                                        Block::make('contact')
+                                        ->label('Bloc contact')
+                                        ->schema([
+                                            Tabs::make('Tabs')
+                                                ->tabs([
+                                                    Tab::make('Contenu')
+                                                        ->schema([
+                                                            ...self::getBase(),
+                                                            self::getTitleRichEditor('title', 'Titre'),
+                                                            Textarea::make('description')
+                                                                ->label('Description'),
+                                                        ]),
+                                                    self::getTabStyles(),
+                                                ]),
+                                        ])
+                                        ->preview('components.blocks.contact'),
 
 
 

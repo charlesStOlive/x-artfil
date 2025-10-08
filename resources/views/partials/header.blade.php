@@ -4,7 +4,7 @@
             <!-- Logo -->
             <div class="flex-shrink-0">
                 <a href="{{ url('/') }}" class="flex items-center">
-                    <svg class="h-8 w-8 text-amber-600" fill="currentColor" viewBox="0 0 20 20">
+                    <svg class="h-8 w-8 text-primary" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                     </svg>
                     <span class="ml-2 text-xl font-bold text-gray-900">X-Artfil</span>
@@ -13,11 +13,11 @@
 
             <!-- Desktop Navigation -->
             <div class="hidden md:flex items-center space-x-8">
-                <a href="{{ url('/') }}" class="text-gray-700 hover:text-amber-600 px-3 py-2 text-sm font-medium transition-colors">
+                <a href="{{ url('/') }}" class="text-gray-700 hover:text-primary px-3 py-2 text-sm font-medium transition-colors">
                     Accueil
                 </a>
                 @foreach($headerPages as $page)
-                    <a href="{{ route('page', ['slug' => $page->slug]) }}" class="text-gray-700 hover:text-amber-600 px-3 py-2 text-sm font-medium transition-colors">
+                    <a href="{{ route('page', ['slug' => $page->slug]) }}" class="text-gray-700 hover:text-primary px-3 py-2 text-sm font-medium transition-colors">
                         {{ $page->titre }}
                     </a>
                 @endforeach
@@ -38,11 +38,11 @@
         <!-- Mobile Navigation -->
         <div x-show="mobileMenuOpen" x-transition class="md:hidden pb-4">
             <div class="flex flex-col space-y-2">
-                <a href="{{ url('/') }}" class="text-gray-700 hover:text-amber-600 px-3 py-2 text-sm font-medium transition-colors">
+                <a href="{{ url('/') }}" class="text-gray-700 hover:text-primary px-3 py-2 text-sm font-medium transition-colors">
                     Accueil
                 </a>
                 @foreach($headerPages as $page)
-                    <a href="{{ route('page', ['slug' => $page->slug]) }}" class="text-gray-700 hover:text-amber-600 px-3 py-2 text-sm font-medium transition-colors">
+                    <a href="{{ route('page', ['slug' => $page->slug]) }}" class="text-gray-700 hover:text-primary px-3 py-2 text-sm font-medium transition-colors">
                         {{ $page->titre }}
                     </a>
                 @endforeach

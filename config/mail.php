@@ -115,4 +115,15 @@ return [
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Contact Form Configuration
+    |--------------------------------------------------------------------------
+    |
+    | Email de réception pour le formulaire de contact
+    |
+    */
+
+    'contact_email' => env('MAIL_CONTACT_EMAIL', 'contact@votre-site.com'),
+
 ];
