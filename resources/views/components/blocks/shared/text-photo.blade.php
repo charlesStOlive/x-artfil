@@ -17,7 +17,7 @@
                 :display-type="$photoDisplayType"
                 :position="$photoPosition"
                 :image-right="$imageRight"
-                class="fade-in-left {{ $imageRight ? 'md:order-2' : '' }}" />
+                class=" {{ $imageRight ? 'md:order-2 fade-in-left' : 'fade-in-right' }}" />
         @endif
 
         @if ($textContent)
@@ -25,7 +25,7 @@
                 :content="$textContent" 
                 :couleur-primaire="$couleurPrimaire" 
                 :style-listes="$styleListes"
-                class="fade-in-right {{ $imageRight ? 'md:order-1' : '' }}" />
+                class="fade-in-right {{ $imageRight ? 'md:order-1 fade-in-left' : 'fade-in-right' }}" />
         @endif
     </div>
 @endif

@@ -1,3 +1,6 @@
+// Import du système d'animation
+import './components/animations.js';
+
 // Fonction principale de l'application front-end (utilise Alpine de Livewire)
 window.frontApp = () => {
     return {
@@ -8,34 +11,28 @@ window.frontApp = () => {
         // Initialisation
         init() {
             console.log('Front App initialized')
-            this.initAnimations()
+            // Le système d'animation s'initialise automatiquellement via animations.js
+            // Accessible via window.frontAppAnimations une fois initialisé
+        },
+
+        // Méthodes d'animation (proxies vers le système d'animation)
+        triggerAnimation(selector, animationType = 'fade-in-up', delay = 0) {
+            if (window.frontAppAnimations) {
+                window.frontAppAnimations.triggerAnimation(selector, animationType, delay);
+            }
+        },
+
+        addCustomObserver(elements, callback, options = {}) {
+            if (window.frontAppAnimations) {
+                return window.frontAppAnimations.addCustomObserver(elements, callback, options);
+            }
+            return null;
         },
 
         // Gestion du thème (mode sombre retiré)
         initTheme() {
             // Plus de gestion du mode sombre
             console.log('Theme initialized (light mode only)')
-        },
-
-        // Animations au scroll
-        initAnimations() {
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            }
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('animate-fade-in')
-                    }
-                })
-            }, observerOptions)
-
-            // Observer tous les éléments avec la classe 'observe-me'
-            document.querySelectorAll('.observe-me').forEach(el => {
-                observer.observe(el)
-            })
         },
 
         // Notifications

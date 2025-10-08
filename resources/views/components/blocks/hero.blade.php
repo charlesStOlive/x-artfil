@@ -24,15 +24,15 @@
     
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center">
-            <div class="text-5xl md:text-7xl font-bold text-gray-900 mb-6 fade-in-up font-heading prose-brush">
+            <div class="text-5xl md:text-7xl font-bold text-gray-900 mb-6 fade-in-left font-heading prose-brush">
                 {!! $title !!}
             </div>
             @if ($description)
-                <p class="text-lg md:text-xl text-gray-600 mb-12 max-w-4xl mx-auto fade-in-up whitespace-pre-line" data-animation-delay="200">
+                <p class="text-lg md:text-xl text-gray-600 mb-12 max-w-4xl mx-auto fade-in-right whitespace-pre-line" data-animation-delay="200">
                     {{ $description }}
                 </p>
             @endif
-            <x-blocks.shared.button-group :boutons="$boutons" />
+            <x-blocks.shared.button-group :boutons="$boutons" class="fade-in-up" data-animation-delay="400" />
         </div>
     </div>
 </x-blocks.shared.section>

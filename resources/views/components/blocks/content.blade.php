@@ -32,7 +32,7 @@
             @if ($title || $description)
                 <div class="text-center mb-16">
                     @if ($title)
-                        <x-blocks.shared.title :title="$title" :couleur-primaire="$couleurPrimaire" />
+                        <x-blocks.shared.title :title="$title" :couleur-primaire="$couleurPrimaire" :class="'fade-in-up'" />
                     @endif
                     @if ($description)
                         <x-blocks.shared.description :description="$description" />

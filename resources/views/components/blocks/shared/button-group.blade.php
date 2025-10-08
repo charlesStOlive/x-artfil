@@ -1,8 +1,10 @@
-@props(['boutons' => []])
+@props([
+    'boutons' => [],
+    'class' => '',
+    ])
 
 @if (!empty($boutons))
-    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center fade-in-up"
-        data-animation-delay="400">
+    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center {{ $class }}">
         @foreach ($boutons as $bouton)
             @php
                 $href = match($bouton['type_lien']) {
