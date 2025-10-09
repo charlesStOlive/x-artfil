@@ -8,12 +8,12 @@
     <meta name="description" content="{{ $metaDescription ?? 'Découvrez l\'art-thérapie avec notre praticien certifié.' }}">
     <meta name="keywords" content="{{ $metaKeywords ?? 'art-thérapie, thérapie, créativité' }}">
     
-    <meta property="og:title" content="@hasSection('title')@yield('title')@else Art-Thérapie - Découvrez votre créativité @endif">
+    <meta property="og:title" content="{{ $title ?? 'Art-Thérapie - Découvrez votre créativité' }}">
     <meta property="og:description" content="{{ $metaDescription ?? 'Découvrez l\'art-thérapie avec notre praticien certifié.' }}">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->current() }}">
 
-    <title>@hasSection('title')@yield('title')@else{{ config('app.name', 'X-Artfil') }}@endif</title>
+    <title>{{ $title }} - {{ config('app.name') }}</title>
 
     {{-- Preconnect pour les performances --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
