@@ -29,10 +29,10 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->passwordReset()
             ->colors([
                 'primary' => '#B24030',
-                'secondary' => '#F7D463;
-'
+                'secondary' => '#F7D463',
             ])
             ->font('Inter')
             ->brandName('X-Artfil Admin')
