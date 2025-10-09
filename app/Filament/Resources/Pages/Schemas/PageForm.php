@@ -45,6 +45,7 @@ class PageForm
                                 ->collapsible()
                                 ->cloneable()
                                 ->grow()
+                                ->blockNumbers(false)
                                 ->editAction(
                                     fn($action) => $action->modalWidth(Width::SevenExtraLarge)
                                 )
@@ -67,6 +68,16 @@ class PageForm
 
                                     Block::make('hero')
                                         ->label('Bannière Hero')
+                                        ->label(function (?array $state): string {
+                                            $name = "BENNIERE HERO";
+                                            if ($state === null) {
+                                                return $name;
+                                            }
+                                            $anchor = $state['anchor'] ?? 'X';
+                                            return sprintf('%s | Ancre : [%s]', $name, $anchor );
+
+
+                                        })
                                         ->schema([
                                             Tabs::make('Tabs')
                                                 ->tabs([
@@ -85,7 +96,17 @@ class PageForm
                                         ->preview('components.blocks.hero'),
 
                                     Block::make('content')
-                                        ->label('Contenu classique')
+                                        ->label('Contenu')
+                                        ->label(function (?array $state): string {
+                                            $name = "CONTENU";
+                                            if ($state === null) {
+                                                return $name;
+                                            }
+                                            $anchor = $state['anchor'] ?? 'X';
+                                            return sprintf('%s | Ancre : [%s]', $name, $anchor );
+
+
+                                        })
                                         ->schema([
                                             Tabs::make('Tabs')
                                                 ->tabs([
@@ -115,7 +136,17 @@ class PageForm
                                         ])
                                         ->preview('components.blocks.content'),
                                     Block::make('new-content')
-                                        ->label('Nouveau contenu')
+                                        ->label('Contenu multiple')
+                                        ->label(function (?array $state): string {
+                                            $name = "CONTENU MULTIPLE";
+                                            if ($state === null) {
+                                                return $name;
+                                            }
+                                            $anchor = $state['anchor'] ?? 'X';
+                                            return sprintf('%s | Ancre : [%s]', $name, $anchor );
+
+
+                                        })
                                         ->schema([
                                             Tabs::make('Tabs')
                                                 ->tabs([
@@ -191,7 +222,7 @@ class PageForm
                                         ])
                                         ->preview('components.blocks.new-content'),
 
-                                        Block::make('contact')
+                                    Block::make('contact')
                                         ->label('Bloc contact')
                                         ->schema([
                                             Tabs::make('Tabs')
@@ -265,10 +296,10 @@ class PageForm
         return Action::make('preview')
             ->icon('heroicon-o-eye')
             ->tooltip('Prévisualiser la page')
-            ->url(fn ($get) => $get('slug') ? route('page', ['slug' => $get('slug')]) : null)
+            ->url(fn($get) => $get('slug') ? route('page', ['slug' => $get('slug')]) : null)
             ->openUrlInNewTab()
             ->color('gray')
-            ->disabled(fn ($get) => $get('status') !== 'published');
+            ->disabled(fn($get) => $get('status') !== 'published');
     }
 
     public static function getBase(): array
@@ -433,7 +464,7 @@ class PageForm
             ->columnSpan(1);
     }
 
-   
+
 
     public static function getGridPhoto(): Grid
     {
