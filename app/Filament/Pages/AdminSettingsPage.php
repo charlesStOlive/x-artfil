@@ -22,7 +22,7 @@ class AdminSettingsPage extends SettingsPage
 
     protected static ?string $title = 'Paramètres Administrateur';
 
-    protected static ?int $navigationSort = 99;
+    protected static ?int $navigationSort = 4;
 
     public function form(Schema $schema): Schema
     {
