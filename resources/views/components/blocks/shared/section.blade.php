@@ -1,7 +1,10 @@
 @props([
     'data' => [],
     'anchor' => null,
-    'defaultClasses' => 'relative pt-8 md:pt-16'
+    'classes' => '',
+    'mode' => 'front',
+    'separator' => false,
+    'couleurPrimaire' =>  'primary',
 ])
 
 @php
@@ -11,38 +14,41 @@
     $is_hidden = $data['is_hidden'] ?? false;
 @endphp
 
-<section 
-    {{ $anchor ? 'id=' . $anchor : '' }}
-    class="{{ $defaultClasses }} {{ $backgroundImage ? 'bg-cover bg-center' : 'bg-white' }}"
-    @if ($backgroundImage) 
-    style="background-image: url('{{ $backgroundImage }}')"
-     @endif
-    >
-    
+<section {{ $anchor ? 'id=' . $anchor : '' }}
+    class="relative p-8 md:p-16 {{ $backgroundImage ? 'bg-cover bg-center' : 'bg-white' }} {{ $classes }} {{ $mode === 'preview' ? 'min-h-[120px]' : '' }}"
+    @if ($backgroundImage) style="background-image: url('{{ $backgroundImage }}')" @endif>
+
     {{-- Overlays pour image de fond de section --}}
     @if ($directionCouleur !== 'aucun')
-        <div class="absolute inset-0 
-            @if ($directionCouleur === 'primaire-secondaire')
-                bg-gradient-to-br from-primary/40 to-secondary/40
+        <div
+            class="absolute inset-0 
+            @if ($directionCouleur === 'primaire-secondaire') bg-gradient-to-br from-primary/40 to-secondary/40
             @else
-                bg-gradient-to-br from-secondary/40 to-primary/40
-            @endif">
+                bg-gradient-to-br from-secondary/40 to-primary/40 @endif">
         </div>
     @endif
-    
+
     @if ($coucheBlanc !== 'aucun')
-        <div class="absolute inset-0 
-            @if ($coucheBlanc === 'normal')
-                bg-gradient-to-b from-white/30 to-white/70
+        <div
+            class="absolute inset-0 
+            @if ($coucheBlanc === 'normal') bg-gradient-to-b from-white/30 to-white/70
             @else
-                bg-gradient-to-b from-white/50 to-white/100
-            @endif">
+                bg-gradient-to-b from-white/50 to-white/100 @endif">
         </div>
     @endif
-    
+
     {{-- Contenu de la section via le slot --}}
-    {{ $slot }}
-    
+    <div class="relative z-2">
+        {{ $slot }}
+    </div>
+
+    @if ($separator)
+        <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2">
+            <div class="w-64 h-1 {{ $couleurPrimaire === 'primary' ? 'bg-primary' : 'bg-secondary' }} rounded-full">
+            </div>
+        </div>
+    @endif
+
     {{-- Si la section est cachée, on met une surcouche sur l'ensemble de la section avec un blanc transparent à 0.5 --}}
     @if ($is_hidden)
         <div class="absolute inset-0 bg-white/50 flex items-center justify-center z-5">
@@ -51,4 +57,6 @@
             </div>
         </div>
     @endif
+
+
 </section>

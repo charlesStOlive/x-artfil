@@ -10,9 +10,9 @@ class FrontAppAnimations {
     }
 
     init() {
-        this.setupIntersectionObserver();
-        this.setupParallaxEffects();
-        this.setupAnimations();
+        //this.setupIntersectionObserver();
+        //this.setupParallaxEffects();
+        //this.setupAnimations();
         console.log('✨ Animations component initialized');
     }
 

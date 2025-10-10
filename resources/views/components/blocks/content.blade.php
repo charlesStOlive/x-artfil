@@ -26,43 +26,27 @@
 @endphp
 
 {{-- Utilisation du composant section réutilisable --}}
-<x-blocks.shared.section :data="$sectionStyles" :anchor="$anchor ?: ''">
-    <div>
-        <div class="mx-auto relative z-2 max-w-7xl  px-4 sm:px-6 lg:px-8 ">
-            @if ($title || $description)
-                <div class="text-center mb-16">
-                    @if ($title)
-                        <x-blocks.shared.title :title="$title" :couleur-primaire="$couleurPrimaire" :class="'fade-in-up'" />
-                    @endif
-                    @if ($description)
-                        <x-blocks.shared.description :description="$description" />
-                    @endif
-                </div>
+<x-blocks.shared.section :data="$sectionStyles" :anchor="$anchor ?: ''" :mode="$mode" :separator="$afficherSeparateur" :couleur-primaire="$couleurPrimaire">
+    <div class=" flex flex-col space-y-12 justify-center">  
+            @if ($title)
+                <x-blocks.shared.title :title="$title" :couleur-primaire="$couleurPrimaire" class="fade-in-up" />
             @endif
-
+            @if ($description)
+                <x-blocks.shared.description :description="$description" />
+            @endif
 
             @php
                 $hasImage = $photoData['url'] ?? null;
             @endphp
-
             <div class="{{ $hasImage ? 'grid md:grid-cols-2 gap-12' : 'max-w-4xl mx-auto' }} items-center ">
                 @if ($hasImage ?? null)
-                    {{-- Mode image avec composant photo-display --}}
-                    <x-blocks.shared.photo-display class="fade-in-left {{ $imageRight ? 'md:order-2' : 'md:order-1' }}"
-                        :data="$photoData" />
+                    <x-blocks.shared.photo-display :data="$photoData" class="fade-in-left {{ $imageRight ? 'md:order-2' : 'md:order-1' }}"  />
                 @endif
-
                 <x-blocks.shared.html-reader :content="$texts" :couleur-primaire="$couleurPrimaire" :style-listes="$styleListes"
-                    class="fade-in-right {{ $imageRight ? 'md:order-1' : 'md:order-2' }} max-w-4xl" />
+                    class="fade-in-right {{ $imageRight ? 'md:order-1' : 'md:order-2' }}" />
             </div>
 
-            @if ($afficherSeparateur)
-                <div class="mt-16 flex justify-center">
-                    <div
-                        class="w-24 h-1 {{ $couleurPrimaire === 'primary' ? 'bg-primary' : 'bg-secondary' }} rounded-full">
-                    </div>
-                </div>
-            @endif
+            
         </div>
-    </div>
+
 </x-blocks.shared.section>

@@ -37,12 +37,24 @@
     right: -8%;
     height: 120%;
     transform: translateY(-50%);
-    background: linear-gradient(135deg, var(--color-art-primary-dark), var(--color-art-primary-light));
     mask: url("/public/images/front/svgs/brush1.svg") no-repeat center;
-    mask-size: 100% 100%;
+    mask-size: contain;
     -webkit-mask: url("/public/images/front/svgs/brush1.svg") no-repeat center;
-    -webkit-mask-size: 100% 100%;
+    -webkit-mask-size: contain;
     z-index: -1;
+}
+
+/* Dans votre fichier CSS */
+.prose-brush-primary strong::before,
+.prose-brush-primary b::before,
+.prose-brush-primary .font-bold::before {
+    background: linear-gradient(135deg,  var(--color-art-primary-dark), var(--color-art-primary-light));
+}
+
+.prose-brush-secondary strong::before,
+.prose-brush-secondary b::before,
+.prose-brush-secondary .font-bold::before {
+    background: linear-gradient(135deg, var(--color-art-secondary-dark), var(--color-art-secondary-light));
 }
 
 /* Masque SVG pour les images */

@@ -4,9 +4,7 @@
 ])
 
 @if ($description)
-    <div class="text-center mb-16 {{ $class }}">
-        <div class="text-lg md:text-xl text-gray-600 mb-12 max-w-4xl mx-auto whitespace-pre-line">
-            {{ $description }}
-        </div>
+    <div class="text-center {{ $class }}">
+        <div class="text-lg md:text-xl text-gray-600  mx-auto  max-w-4xl whitespace-break-spaces">{{ $description }}</div>
     </div>
 @endif

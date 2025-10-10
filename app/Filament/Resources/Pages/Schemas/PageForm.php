@@ -65,7 +65,6 @@ class PageForm
                                         }),
                                 ])
                                 ->blocks([
-
                                     Block::make('hero')
                                         ->label('Bannière Hero')
                                         ->label(function (?array $state): string {
@@ -74,9 +73,7 @@ class PageForm
                                                 return $name;
                                             }
                                             $anchor = $state['anchor'] ?? 'X';
-                                            return sprintf('%s | Ancre : [%s]', $name, $anchor );
-
-
+                                            return sprintf('%s | Ancre : [%s]', $name, $anchor);
                                         })
                                         ->schema([
                                             Tabs::make('Tabs')
@@ -90,7 +87,7 @@ class PageForm
                                                             self::getActionsEditor(),
 
                                                         ]),
-                                                    self::getTabStyles(),
+                                                    self::getTabStylesHero(),
                                                 ]),
                                         ])
                                         ->preview('components.blocks.hero'),
@@ -103,9 +100,7 @@ class PageForm
                                                 return $name;
                                             }
                                             $anchor = $state['anchor'] ?? 'X';
-                                            return sprintf('%s | Ancre : [%s]', $name, $anchor );
-
-
+                                            return sprintf('%s | Ancre : [%s]', $name, $anchor);
                                         })
                                         ->schema([
                                             Tabs::make('Tabs')
@@ -131,7 +126,7 @@ class PageForm
                                                                 ->hidden(fn($get) => $get('secondary_text')),
                                                         ]),
                                                     // self::getTabImageFond(),
-                                                    self::getTabStyles(),
+                                                    self::getTabStylesContent(),
                                                 ]),
                                         ])
                                         ->preview('components.blocks.content'),
@@ -143,9 +138,7 @@ class PageForm
                                                 return $name;
                                             }
                                             $anchor = $state['anchor'] ?? 'X';
-                                            return sprintf('%s | Ancre : [%s]', $name, $anchor );
-
-
+                                            return sprintf('%s | Ancre : [%s]', $name, $anchor);
                                         })
                                         ->schema([
                                             Tabs::make('Tabs')
@@ -217,30 +210,10 @@ class PageForm
                                                                         ]),
                                                                 ]),
                                                         ]),
-                                                    self::getTabStyles(),
+                                                    self::getTabStylesContent(),
                                                 ]),
                                         ])
                                         ->preview('components.blocks.new-content'),
-
-                                    Block::make('contact')
-                                        ->label('Bloc contact')
-                                        ->schema([
-                                            Tabs::make('Tabs')
-                                                ->tabs([
-                                                    Tab::make('Contenu')
-                                                        ->schema([
-                                                            ...self::getBase(),
-                                                            self::getTitleRichEditor('title', 'Titre'),
-                                                            Textarea::make('description')
-                                                                ->label('Description'),
-                                                        ]),
-                                                    self::getTabStyles(),
-                                                ]),
-                                        ])
-                                        ->preview('components.blocks.contact'),
-
-
-
                                 ]),
                         ])->columnSpan(3),
                     Section::make('Détails de la page')
@@ -507,7 +480,7 @@ class PageForm
             ])->columnSpan(1);
     }
 
-    public static function getTabStyles(): Tab
+    public static function getTabStylesHero(): Tab
     {
         return Tab::make('Style')
             ->schema([
@@ -516,7 +489,71 @@ class PageForm
                     'sm' => 1,
                     'md' => 2
                 ])->schema([
-                    static::getGridStyles(),
+                    Grid::make(1)
+                        ->schema([
+                            Select::make('couleur_primaire')
+                                ->label('Couleur du titre')
+                                ->options([
+                                    'primary' => 'Primaire',
+                                    'secondary' => 'Secondaire',
+                                    'primary-brush' => 'Pinceau primaire',
+                                    'secondary-brush' => 'Pinceau secondaire',
+                                ])
+                                ->default('secondary'),
+                            Toggle::make('animate')
+                                ->label('Activer les animations')
+                                ->helperText('Active les animations d\'apparition des éléments lors du scroll')
+                                ->default(true),
+                            Toggle::make('is_hidden')
+                                ->label('Cacher temporairement ce bloc')
+                                ->default(false),
+                        ])
+                        ->columnSpan(1),
+                    static::getGridBgImage(),
+                ])
+
+            ]);
+    }
+
+    public static function getTabStylesContent(): Tab
+    {
+        return Tab::make('Style')
+            ->schema([
+                Grid::make([
+                    'default' => 2,
+                    'sm' => 1,
+                    'md' => 2
+                ])->schema([
+                    Grid::make(1)
+                        ->schema([
+                            Select::make('couleur_primaire')
+                                ->label('Couleur du titre')
+                                ->options([
+                                    'primary' => 'Primaire',
+                                    'secondary' => 'Secondaire',
+                                ])
+                                ->default('secondary'),
+                            Select::make('style_listes')
+                                ->label('Style des listes')
+                                ->options([
+                                    'alternance' => 'Alternance primary/secondary',
+                                    'primary' => 'Primaire uniquement',
+                                    'secondary' => 'Secondaire uniquement',
+                                ])
+                                ->default('alternance'),
+                            Toggle::make('afficher_separateur')
+                                ->label('Afficher un séparateur')
+                                ->helperText('Affiche une ligne de séparation sous le contenu')
+                                ->default(false),
+                            Toggle::make('animate')
+                                ->label('Activer les animations')
+                                ->helperText('Active les animations d\'apparition des éléments lors du scroll')
+                                ->default(true),
+                            Toggle::make('is_hidden')
+                                ->label('Cacher temporairement ce bloc')
+                                ->default(false),
+                        ])
+                        ->columnSpan(1),
                     static::getGridBgImage(),
                 ])
 
