@@ -66,6 +66,7 @@ class AnalyticsChartWidget extends ChartWidget
                     'backgroundColor' => FilamentColorHelper::addTransparency($primaryColor, 0.8),
                     'borderColor' => $primaryColor,
                     'borderWidth' => 2,
+                    'yAxisID' => 'y',
                 ],
                 [
                     'label' => 'Visiteurs uniques',
@@ -73,6 +74,7 @@ class AnalyticsChartWidget extends ChartWidget
                     'backgroundColor' => FilamentColorHelper::addTransparency($secondaryColor, 0.8),
                     'borderColor' => $secondaryColor,
                     'borderWidth' => 2,
+                    'yAxisID' => 'y1',
                 ],
             ],
             'labels' => $labels,
@@ -116,6 +118,7 @@ class AnalyticsChartWidget extends ChartWidget
                     'backgroundColor' => FilamentColorHelper::addTransparency($primaryColor, 0.8),
                     'borderColor' => $primaryColor,
                     'borderWidth' => 2,
+                    'yAxisID' => 'y',
                 ],
                 [
                     'label' => 'Visiteurs uniques',
@@ -123,6 +126,7 @@ class AnalyticsChartWidget extends ChartWidget
                     'backgroundColor' => FilamentColorHelper::addTransparency($secondaryColor, 0.8),
                     'borderColor' => $secondaryColor,
                     'borderWidth' => 2,
+                    'yAxisID' => 'y1',
                 ],
             ],
             'labels' => $labels,
@@ -146,16 +150,47 @@ class AnalyticsChartWidget extends ChartWidget
     {
         return [
             'responsive' => true,
+            'interaction' => [
+                'mode' => 'index',
+                'intersect' => false,
+            ],
             'plugins' => [
                 'legend' => [
                     'display' => true,
                 ],
+                'title' => [
+                    'display' => true,
+                    'text' => 'Visites vs Visiteurs uniques',
+                ],
             ],
             'scales' => [
                 'y' => [
+                    'type' => 'linear',
+                    'display' => true,
+                    'position' => 'left',
                     'beginAtZero' => true,
+                    'title' => [
+                        'display' => true,
+                        'text' => 'Visites totales',
+                    ],
                     'ticks' => [
                         'precision' => 0,
+                    ],
+                ],
+                'y1' => [
+                    'type' => 'linear',
+                    'display' => true,
+                    'position' => 'right',
+                    'beginAtZero' => true,
+                    'title' => [
+                        'display' => true,
+                        'text' => 'Visiteurs uniques',
+                    ],
+                    'ticks' => [
+                        'precision' => 0,
+                    ],
+                    'grid' => [
+                        'drawOnChartArea' => false,
                     ],
                 ],
             ],
