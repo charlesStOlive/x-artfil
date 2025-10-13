@@ -1,6 +1,6 @@
-<x-blocks.shared.section data="[]" anchor="contact" default-classes="border-t border-gray-200 bg-gray-50 p-4 md:p-16">
+<x-blocks.shared.section data="[]" anchor="contact" class="border-t border-gray-200 bg-gray-50 p-4 md:p-16 mx-auto">
     <div class="max-w-7xl mx-auto">
-        <x-blocks.shared.title title="Formulaire de <strong>contact</strong>" couleur-primaire="primary" :class="'fade-in-up'" />
+        <x-blocks.shared.title title="Formulaire de <strong>contact</strong>" couleur-primaire="primary" class="mb-16 fade-in-up" />
         <div class="grid md:grid-cols-2 gap-12">
             <!-- Informations de contact -->
             <div class="fade-in-left">

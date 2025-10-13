@@ -1,7 +1,7 @@
 @props([
     'data' => [],
     'anchor' => null,
-    'classes' => '',
+    'class' => '',
     'mode' => 'front',
     'separator' => false,
     'couleurPrimaire' =>  'primary',
@@ -15,7 +15,7 @@
 @endphp
 
 <section {{ $anchor ? 'id=' . $anchor : '' }}
-    class="relative p-8 md:p-16 {{ $backgroundImage ? 'bg-cover bg-center' : 'bg-white' }} {{ $classes }} {{ $mode === 'preview' ? 'min-h-[120px]' : '' }}"
+    class="relative p-8 md:p-16 {{ $backgroundImage ? 'bg-cover bg-center' : 'bg-white' }} {{ $class }} {{ $mode === 'preview' ? 'min-h-[120px]' : '' }}"
     @if ($backgroundImage) style="background-image: url('{{ $backgroundImage }}')" @endif>
 
     {{-- Overlays pour image de fond de section --}}

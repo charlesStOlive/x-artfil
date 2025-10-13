@@ -11,7 +11,7 @@ class BlockDataParser
     private string $mode;
     private ?string $blockId;
     private mixed $page;
-    private ?array $blockData = null;
+    private array $processedData = [];
 
     public function __construct(string $mode = 'front', ?string $blockId = null, mixed $page = null)
     {
@@ -22,27 +22,112 @@ class BlockDataParser
 
     /**
      * Créer une instance depuis un bloc et ses données directement
+     * Traite automatiquement toutes les données selon leurs préfixes
      *
      * @param array $blockData Données du bloc ($block['data'])
      * @param string $mode Mode d'affichage
      * @param mixed|null $page Instance de page
-     * @return static
+     * @return array Données traitées directement utilisables
      */
-    public static function fromBlockData(array $blockData, string $mode = 'front', mixed $page = null): static
+    public static function fromBlockData(array $blockData, string $mode = 'front', mixed $page = null): array
     {
-        $blockId = $blockData['block_id'] ?? null;
-        $instance = new static($mode, $blockId, $page);
-        $instance->blockData = $blockData; // Stocker les données pour un accès direct
-        return $instance;
+        $instance = new static($mode, null, $page);
+        return $instance->processAllData($blockData);
     }
 
     /**
-     * Obtenir l'URL d'une image (FileUpload simple)
+     * Traite tous les blocs d'une page et retourne les données prêtes pour l'injection
+     * Utile pour traiter en amont dans le contrôleur/Livewire
      *
-     * @param mixed $image Image du bloc (string path)
+     * @param array $blocks Array de blocs avec structure ['type' => '...', 'data' => [...]]
+     * @param string $mode Mode d'affichage
+     * @param mixed|null $page Instance de page
+     * @return array Blocs avec données traitées
+     */
+    public static function processPageBlocks(array $blocks, string $mode = 'front', mixed $page = null): array
+    {
+        $processedBlocks = [];
+        
+        foreach ($blocks as $block) {
+            $processedData = static::fromBlockData($block['data'] ?? [], $mode, $page);
+            
+            $processedBlocks[] = [
+                'type' => $block['type'] ?? '',
+                'data' => $processedData,
+                'processed' => true, // Marquer comme déjà traité
+            ];
+        }
+        
+        return $processedBlocks;
+    }
+
+    /**
+     * Traite automatiquement toutes les données selon leur type/préfixe
+     *
+     * @param array $blockData
+     * @return array
+     */
+    private function processAllData(array $blockData): array
+    {
+        $processed = [];
+        
+        foreach ($blockData as $key => $value) {
+            $processed[$key] = $this->processDataValue($key, $value);
+        }
+        
+        return $processed;
+    }
+
+    /**
+     * Traite une valeur selon son type/préfixe
+     *
+     * @param string $key
+     * @param mixed $value
+     * @return mixed
+     */
+    private function processDataValue(string $key, mixed $value)
+    {
+        // Si la valeur est null ou vide, retourner telle quelle
+        if ($value === null || (is_array($value) && empty($value))) {
+            return $value;
+        }
+
+        // Traitement des images (préfixe image_ ou images_)
+        if (str_starts_with($key, 'image_') || str_starts_with($key, 'images_')) {
+            if (str_starts_with($key, 'images_')) {
+                // Images multiples
+                return $this->processMultipleImages($value);
+            } else {
+                // Image simple
+                return $this->processImageUrl($value);
+            }
+        }
+
+        // Traitement du contenu HTML (préfixe html_)
+        if (str_starts_with($key, 'html_')) {
+            return $this->processHtmlContent($value);
+        }
+
+        // Traitement des objets imbriqués (comme photo_config)
+        if (is_array($value) && $this->isAssociativeArray($value)) {
+            $processed = [];
+            foreach ($value as $subKey => $subValue) {
+                $processed[$subKey] = $this->processDataValue($subKey, $subValue);
+            }
+            return $processed;
+        }
+
+        // Valeur normale, retourner telle quelle
+        return $value;
+    }
+
+    /**
+     * Traite une URL d'image
+     *
+     * @param mixed $image
      * @return string|null
      */
-    public function getImageUrl(mixed $image): ?string
+    private function processImageUrl(mixed $image): ?string
     {
         if (!$image) {
             return null;
@@ -62,12 +147,35 @@ class BlockDataParser
     }
 
     /**
-     * Obtenir le contenu HTML formaté depuis RichEditor
+     * Traite plusieurs images
      *
-     * @param mixed $content Contenu du RichEditor (JSON Tiptap ou HTML)
+     * @param mixed $images
+     * @return array|null
+     */
+    private function processMultipleImages(mixed $images): ?array
+    {
+        if (!is_array($images)) {
+            return null;
+        }
+
+        $processed = [];
+        foreach ($images as $image) {
+            $url = $this->processImageUrl($image);
+            if ($url) {
+                $processed[] = $url;
+            }
+        }
+
+        return empty($processed) ? null : $processed;
+    }
+
+    /**
+     * Traite le contenu HTML
+     *
+     * @param mixed $content
      * @return string|null
      */
-    public function getHtmlContent(mixed $content): ?string
+    private function processHtmlContent(mixed $content): ?string
     {
         if (!$content) {
             return null;
@@ -92,23 +200,17 @@ class BlockDataParser
     }
 
     /**
-     * Obtenir une valeur de données de bloc avec fallback
+     * Vérifie si un array est associatif
      *
-     * @param array $blockData
-     * @param string $key
-     * @param mixed $default
-     * @return mixed
+     * @param array $array
+     * @return bool
      */
-    public function getData(array $blockData, string $key, mixed $default = null): mixed
+    private function isAssociativeArray(array $array): bool
     {
-        $value = $blockData[$key] ?? $default;
-
-        // Éviter les arrays vides pour les champs texte
-        if (is_array($value) && empty($value)) {
-            return $default;
+        if (empty($array)) {
+            return false;
         }
-
-        return $value;
+        return array_keys($array) !== range(0, count($array) - 1);
     }
 
     /**
@@ -160,139 +262,6 @@ class BlockDataParser
         return null;
     }
 
-    
-
-    /**
-     * Obtenir une valeur de données depuis section_styles ou fallback vers la racine
-     *
-     * @param string $key Clé de la donnée (background_image, couche_blanc, direction_couleur, etc.)
-     * @param mixed $default Valeur par défaut
-     * @return mixed
-     */
-    public function getSectionStyleFrom(string $key, mixed $default = null): mixed
-    {
-        $blockData = $this->blockData ?? [];
-        
-        // D'abord chercher dans section_styles
-        if (isset($blockData['section_styles'][$key])) {
-            return $blockData['section_styles'][$key];
-        }
-        
-        // Fallback vers la racine pour compatibilité avec les anciens blocs
-        return $this->getData($blockData, $key, $default);
-    }
-
-    /**
-     * Obtenir l'URL d'une image depuis section_styles ou fallback vers la racine
-     *
-     * @param string $key Clé de l'image (background_image, etc.)
-     * @return string|null
-     */
-    public function getSectionImageFrom(string $key): ?string
-    {
-        $blockData = $this->blockData ?? [];
-        
-        // D'abord chercher dans section_styles
-        if (isset($blockData['section_styles'][$key])) {
-            return $this->getImageUrl($blockData['section_styles'][$key]);
-        }
-        
-        // Fallback vers la racine pour compatibilité avec les anciens blocs
-        return $this->getImageUrl($blockData[$key] ?? null);
-    }
-
-    /**
-     * Obtenir toutes les données de style de section formatées pour le composant section
-     *
-     * @return array
-     */
-    public function getSectionStyles(): array
-    {
-        $blockData = $this->blockData ?? [];
-        $sectionStyles = $blockData['section_styles'] ?? [];
-        
-        // Données avec fallback vers la racine pour compatibilité
-        $backgroundImage = $this->getSectionImageFrom('background_image');
-        $coucheBlanc = $this->getSectionStyleFrom('couche_blanc', 'aucun');
-        $directionCouleur = $this->getSectionStyleFrom('direction_couleur', 'aucun');
-        $is_hidden = $this->getSectionStyleFrom('is_hidden', false);
-        
-        return [
-            'background_image' => $backgroundImage,
-            'couche_blanc' => $coucheBlanc,
-            'direction_couleur' => $directionCouleur,
-            'is_hidden' => $is_hidden,
-        ];
-    }
-
-    /**
-     * Obtenir une donnée simple du bloc (texte, titre, etc.)
-     *
-     * @param string $key Clé de la donnée (title, text, layout, etc.)
-     * @param mixed $default Valeur par défaut
-     * @return mixed
-     */
-    public function getDataFrom(string $key, mixed $default = null): mixed
-    {
-        return $this->getData($this->blockData ?? [], $key, $default);
-    }
-
-    /**
-     * Obtenir le contenu HTML formaté d'une clé donnée
-     *
-     * @param string $key Clé du contenu HTML (html_content, description, etc.)
-     * @return string|null
-     */
-    public function getHtmlFrom(string $key): ?string
-    {
-        return $this->getHtmlContent($this->blockData[$key] ?? null);
-    }
-
-    /**
-     * Obtenir l'URL d'une image d'une clé donnée
-     *
-     * @param string $key Clé de l'image (background_image, image, images, etc.)
-     * @return string|null
-     */
-    public function getImageFrom(string $key): ?string
-    {
-        return $this->getImageUrl($this->blockData[$key] ?? null);
-    }
-
-    /**
-     * Getters pour accéder aux propriétés
-     */
-    public function getMode(): string
-    {
-        return $this->mode;
-    }
-
-    public function getBlockId(): ?string
-    {
-        return $this->blockId;
-    }
-
-    public function getPage(): mixed
-    {
-        return $this->page;
-    }
-
-    /**
-     * Récupérer toutes les données de configuration photo depuis le statePath
-     *
-     * @return array Tableau avec 'url', 'display_type', 'position'
-     */
-    public function getDataForPhotoFrom(?string $key = 'photo_config'): array
-    {
-        $photoConfig = $this->blockData[$key] ?? [];
-        
-        return [
-            'url' => $this->getImageUrl($photoConfig['url'] ?? null),
-            'display_type' => $photoConfig['display_type'] ?? 'mask_brush_square',
-            'position' => $photoConfig['position'] ?? 'center',
-        ];
-    }
-
     /**
      * Nettoyer les liens internes qui ne devraient pas avoir target="_blank"
      * Solution temporaire en attendant la correction du bug TipTap PHP
@@ -328,11 +297,16 @@ class BlockDataParser
      * Extraire les données depuis les variables définies dans Blade
      * Utilisé quand les données de bloc sont vides pour le mode preview
      *
-     * @return array
+     * @param array $vars Variables Blade
+     * @return array Données extraites et traitées
      */
-    public static function extractDataFromBladeVars($vars): array
+    public static function extractDataFromBladeVars(array $vars): array
     {
         $systemVars = ['__env', '__data', 'obLevel', '__path', 'app', 'errors', 'settings', 'user', 'component', 'attributes', 'slot'];
-        return array_diff_key($vars, array_flip($systemVars));
+        $extractedData = array_diff_key($vars, array_flip($systemVars));
+        
+        // Traiter les données extraites avec le parser
+        $instance = new static('preview');
+        return $instance->processAllData($extractedData);
     }
 }

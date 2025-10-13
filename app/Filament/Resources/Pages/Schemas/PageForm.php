@@ -119,11 +119,10 @@ class PageForm
                                                                 self::getFullRichEditor('texts', 'Texte principal'),
                                                                 self::getGridPhoto()
                                                             ]),
-                                                            Toggle::make('image_right')
-                                                                ->label('Image à droite')
-                                                                ->helperText('Par défaut, l\'image est à gauche')
+                                                            Toggle::make('left_image')
+                                                                ->label('Image à gauche')
+                                                                ->helperText('Par défaut, l\'image est à droite')
                                                                 ->default(false)
-                                                                ->hidden(fn($get) => $get('secondary_text')),
                                                         ]),
                                                     // self::getTabImageFond(),
                                                     self::getTabStylesContent(),
@@ -290,7 +289,10 @@ class PageForm
 
     public static function getFullRichEditor(string $key, string $label): RichEditor
     {
-        return RichEditor::make($key)
+        // Ajouter automatiquement le préfixe html_ si pas déjà présent
+        $fieldName = str_starts_with($key, 'html_') ? $key : 'html_' . $key;
+        
+        return RichEditor::make($fieldName)
             ->label($label)
             ->toolbarButtons([
                 ['bold', 'italic', 'underline', 'strike', 'subscript', 'superscript', 'pageLink'],
@@ -303,7 +305,10 @@ class PageForm
 
     public static function getTitleRichEditor(string $key, string $label): RichEditor
     {
-        return  RichEditor::make($key)
+        // Ajouter automatiquement le préfixe html_ si pas déjà présent
+        $fieldName = str_starts_with($key, 'html_') ? $key : 'html_' . $key;
+        
+        return  RichEditor::make($fieldName)
             ->label($label)
             ->required()
             ->toolbarButtons([
@@ -372,7 +377,7 @@ class PageForm
     {
         return  Grid::make(1)
             ->schema([
-                OptimizingFileUpload::make('background_image')
+                OptimizingFileUpload::make('image_background')
                     ->label('Image de fond')
                     ->disk('public')
                     ->directory('images-bg')
@@ -444,7 +449,7 @@ class PageForm
         return Grid::make(1)
             ->statePath('photo_config')
             ->schema([
-                OptimizingFileUpload::make('url')
+                OptimizingFileUpload::make('image_url')
                     ->label('Photo')
                     ->optimize('webp')
                     ->maxImageWidth(800)

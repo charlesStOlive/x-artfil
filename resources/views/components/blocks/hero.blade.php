@@ -1,31 +1,35 @@
 @props(['block', 'mode' => 'front', 'page' => null])
 
 @php
-    $mode = 'front';
+    // Récupération et traitement automatique des données
     $data = $block['data'] ?? [];
+    $mode = 'front';
     if (empty($data)) {
         $allVars = get_defined_vars();
         $data = \App\Services\BlockDataParser::extractDataFromBladeVars($allVars);
         $mode = 'preview';
+    } else {
+        $data = \App\Services\BlockDataParser::fromBlockData($data, $mode, $page);
     }
-    $parser = \App\Services\BlockDataParser::fromBlockData($data, $mode, $page);
-    $title = $parser->getHtmlFrom('title');
-    $description = $parser->getDataFrom('description');
-    $anchor = $parser->getDataFrom('anchor');
-    $boutons = $parser->getDataFrom('boutons', []);
-    $sectionStyles = $parser->getSectionStyles();
-    $couleurPrimaire = $parser->getDataFrom('couleur_primaire', 'secondary');
+
+    // Section styles pour le composant section
+    $sectionStyles = [
+        'background_image' => $data['image_background'] ?? null,
+        'couche_blanc' => $data['couche_blanc'] ?? 'aucun',
+        'direction_couleur' => $data['direction_couleur'] ?? 'aucun',
+        'is_hidden' => $data['is_hidden'] ?? false,
+    ];
 @endphp
 
 {{-- Utilisation du composant section réutilisable avec classes spécifiques au hero --}}
-<x-blocks.shared.section :data="$sectionStyles" :anchor="$anchor" :mode="$mode">
+<x-blocks.shared.section :data="$sectionStyles" :anchor="$data['anchor'] ?? ''" :mode="$mode">
     <div class="max-w-7xl mx-auto flex flex-col space-y-12 justify-center text-center">
-        @if ($title)
-            <x-blocks.shared.title :title="$title" :couleur-primaire="$couleurPrimaire" isH1=true class="fade-in-up" />
+        @if ($data['html_title'] ?? null)
+            <x-blocks.shared.title :title="$data['html_title']" :couleur-primaire="$data['couleur_primaire'] ?? 'secondary'" isH1=true class="fade-in-up" />
         @endif
-        @if ($description)
-            <x-blocks.shared.description :description="$description" />
+        @if ($data['description'] ?? null)
+            <x-blocks.shared.description :description="$data['description']" />
         @endif
-        <x-blocks.shared.button-group :boutons="$boutons" class="fade-in-up" data-animation-delay="400" />
+        <x-blocks.shared.button-group :boutons="$data['boutons'] ?? []" class="fade-in-up" data-animation-delay="400" />
     </div>
 </x-blocks.shared.section>

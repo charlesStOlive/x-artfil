@@ -5,7 +5,7 @@
 
 @php
     // Extraction des données photo
-    $photoUrl = $data['url'] ?? null;
+    $photoUrl = $data['image_url'] ?? null;
     $displayType = $data['display_type'] ?? 'mask_brush_square';
     $position = $data['position'] ?? 'center';
     

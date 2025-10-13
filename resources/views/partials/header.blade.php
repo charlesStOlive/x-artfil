@@ -13,11 +13,11 @@
 
             <!-- Desktop Navigation -->
             <div class="hidden md:flex items-center space-x-8">
-                <a href="{{ url('/') }}" class="text-gray-700 hover:text-primary px-3 py-2 text-sm font-medium transition-colors">
+                <a href="{{ url('/') }}" class="{{ request()->is('/') ? 'text-primary font-bold' : 'text-gray-700 hover:text-primary' }} px-3 py-2 text-sm font-medium transition-colors">
                     Accueil
                 </a>
                 @foreach($headerPages as $page)
-                    <a href="{{ route('page', ['slug' => $page->slug]) }}" class="text-gray-700 hover:text-primary px-3 py-2 text-sm font-medium transition-colors">
+                    <a href="{{ route('page', ['slug' => $page->slug]) }}" class="{{ request()->route('slug') === $page->slug ? 'text-primary font-bold' : 'text-gray-700 hover:text-primary' }} px-3 py-2 text-sm font-medium transition-colors">
                         {{ $page->titre }}
                     </a>
                 @endforeach
@@ -46,11 +46,11 @@
         <!-- Mobile Navigation -->
         <div x-show="mobileMenuOpen" x-transition class="md:hidden pb-4">
             <div class="flex flex-col space-y-2">
-                <a href="{{ url('/') }}" class="text-gray-700 hover:text-primary px-3 py-2 text-sm font-medium transition-colors">
+                <a href="{{ url('/') }}" class="{{ request()->is('/') ? 'text-primary font-bold' : 'text-gray-700 hover:text-primary' }} px-3 py-2 text-sm font-medium transition-colors">
                     Accueil
                 </a>
                 @foreach($headerPages as $page)
-                    <a href="{{ route('page', ['slug' => $page->slug]) }}" class="text-gray-700 hover:text-primary px-3 py-2 text-sm font-medium transition-colors">
+                    <a href="{{ route('page', ['slug' => $page->slug]) }}" class="{{ request()->route('slug') === $page->slug ? 'text-primary font-bold' : 'text-gray-700 hover:text-primary' }} px-3 py-2 text-sm font-medium transition-colors">
                         {{ $page->titre }}
                     </a>
                 @endforeach
