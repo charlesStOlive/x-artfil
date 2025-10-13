@@ -53,9 +53,181 @@ class ColorPaletteService
     }
 
     /**
+     * Génère une couleur secondaire en mode split-complémentaire
+     * (une des deux couleurs adjacentes à la complémentaire)
+     */
+    public function generateSplitComplementarySecondary(string $primaryColor): string
+    {
+        $hex = new Hex($primaryColor);
+        $hsl = $hex->toHsl();
+        
+        // Rotation de 150° (30° avant la complémentaire)
+        $splitHue = ($hsl->hue() + 150) % 360;
+        
+        // Ajustement harmonieux de la saturation et luminosité
+        $saturation = max(30, min(75, $hsl->saturation() * 0.85));
+        $lightness = max(35, min(65, $hsl->lightness() * 0.95));
+        
+        return $hsl->hue($splitHue)
+                   ->saturation($saturation)
+                   ->lightness($lightness)
+                   ->toHex()
+                   ->__toString();
+    }
+
+    /**
+     * Génère une couleur tertiaire en mode split-complémentaire
+     * (l'autre couleur adjacente à la complémentaire)
+     */
+    public function generateSplitComplementaryTertiary(string $primaryColor): string
+    {
+        $hex = new Hex($primaryColor);
+        $hsl = $hex->toHsl();
+        
+        // Rotation de 210° (30° après la complémentaire)
+        $splitHue = ($hsl->hue() + 210) % 360;
+        
+        // Ajustement harmonieux de la saturation et luminosité
+        $saturation = max(25, min(70, $hsl->saturation() * 0.75));
+        $lightness = max(40, min(70, $hsl->lightness() * 1.05));
+        
+        return $hsl->hue($splitHue)
+                   ->saturation($saturation)
+                   ->lightness($lightness)
+                   ->toHex()
+                   ->__toString();
+    }
+
+    /**
+     * Génère une couleur secondaire en mode analogique simple
+     * (couleur adjacente dans le sens horaire)
+     */
+    public function generateAnalogousSecondary(string $primaryColor): string
+    {
+        $hex = new Hex($primaryColor);
+        $hsl = $hex->toHsl();
+        
+        // Rotation de 30° dans le sens horaire
+        $analogousHue = ($hsl->hue() + 30) % 360;
+        
+        // Légère variation de saturation et luminosité pour créer de l'intérêt
+        $saturation = max(25, min(80, $hsl->saturation() * 0.9));
+        $lightness = max(30, min(75, $hsl->lightness() * 1.1));
+        
+        return $hsl->hue($analogousHue)
+                   ->saturation($saturation)
+                   ->lightness($lightness)
+                   ->toHex()
+                   ->__toString();
+    }
+
+    /**
+     * Génère une couleur tertiaire en mode analogique simple
+     * (couleur adjacente dans le sens anti-horaire)
+     */
+    public function generateAnalogousTertiary(string $primaryColor): string
+    {
+        $hex = new Hex($primaryColor);
+        $hsl = $hex->toHsl();
+        
+        // Rotation de 30° dans le sens anti-horaire
+        $analogousHue = ($hsl->hue() - 30 + 360) % 360;
+        
+        // Variation plus prononcée pour différencier de la secondaire
+        $saturation = max(20, min(75, $hsl->saturation() * 0.8));
+        $lightness = max(35, min(80, $hsl->lightness() * 1.2));
+        
+        return $hsl->hue($analogousHue)
+                   ->saturation($saturation)
+                   ->lightness($lightness)
+                   ->toHex()
+                   ->__toString();
+    }
+
+    /**
+     * Génère les couleurs d'état (success, error, warning, info) harmonieuses avec la palette principale
+     */
+    public function generateStatusColors(string $primaryColor): array
+    {
+        $hex = new Hex($primaryColor);
+        $hsl = $hex->toHsl();
+        
+        return [
+            'success' => $this->generateSuccessColor($hsl),
+            'error' => $this->generateErrorColor($hsl),
+            'warning' => $this->generateWarningColor($hsl),
+            'info' => $this->generateInfoColor($hsl),
+        ];
+    }
+
+    /**
+     * Génère une couleur success harmonieuse (vert adapté à la palette)
+     */
+    private function generateSuccessColor($primaryHsl): string
+    {
+        // Base verte (120°) mais ajustée selon la luminosité/saturation de la primary
+        $saturation = max(30, min(70, $primaryHsl->saturation() * 0.9));
+        $lightness = max(35, min(60, $primaryHsl->lightness() * 0.8));
+        
+        return $primaryHsl->hue(120) // Vert
+                         ->saturation($saturation)
+                         ->lightness($lightness)
+                         ->toHex()
+                         ->__toString();
+    }
+
+    /**
+     * Génère une couleur error harmonieuse (rouge adapté à la palette)
+     */
+    private function generateErrorColor($primaryHsl): string
+    {
+        // Base rouge (0°) mais ajustée selon la palette primaire
+        $saturation = max(40, min(80, $primaryHsl->saturation() * 1.1));
+        $lightness = max(25, min(50, $primaryHsl->lightness() * 0.75));
+        
+        return $primaryHsl->hue(0) // Rouge
+                         ->saturation($saturation)
+                         ->lightness($lightness)
+                         ->toHex()
+                         ->__toString();
+    }
+
+    /**
+     * Génère une couleur warning harmonieuse (orange adapté à la palette)
+     */
+    private function generateWarningColor($primaryHsl): string
+    {
+        // Base orange (30°) ajustée selon la palette
+        $saturation = max(50, min(80, $primaryHsl->saturation() * 0.95));
+        $lightness = max(40, min(70, $primaryHsl->lightness() * 1.2));
+        
+        return $primaryHsl->hue(30) // Orange
+                         ->saturation($saturation)
+                         ->lightness($lightness)
+                         ->toHex()
+                         ->__toString();
+    }
+
+    /**
+     * Génère une couleur info harmonieuse (bleu adapté à la palette)
+     */
+    private function generateInfoColor($primaryHsl): string
+    {
+        // Base bleue (210°) ajustée selon la palette
+        $saturation = max(30, min(60, $primaryHsl->saturation() * 0.8));
+        $lightness = max(35, min(65, $primaryHsl->lightness() * 1.1));
+        
+        return $primaryHsl->hue(210) // Bleu
+                         ->saturation($saturation)
+                         ->lightness($lightness)
+                         ->toHex()
+                         ->__toString();
+    }
+
+    /**
      * Génère les variables CSS pour un thème front (avec palette complète)
      */
-    public function generateThemeVariables(array $primaryPalette, array $secondaryPalette, ?array $tertiaryPalette = null): string
+    public function generateThemeVariables(array $primaryPalette, array $secondaryPalette, ?array $tertiaryPalette = null, ?array $statusColors = null): string
     {
         $css = '';
         
@@ -76,13 +248,28 @@ class ColorPaletteService
             }
         }
         
+        // Couleurs d'état si définies
+        if ($statusColors) {
+            foreach ($statusColors as $type => $colorPalette) {
+                if (is_array($colorPalette)) {
+                    // Si c'est une palette complète (50-900)
+                    foreach ($colorPalette as $shade => $color) {
+                        $css .= "  --color-{$type}-{$shade}: {$color};\n";
+                    }
+                } else {
+                    // Si c'est juste la couleur de base
+                    $css .= "  --color-{$type}: {$colorPalette};\n";
+                }
+            }
+        }
+        
         return $css;
     }
 
     /**
      * Génère les variables CSS pour un thème filament (palette complète également)
      */
-    public function generateFilamentThemeVariables(array $primaryPalette, array $secondaryPalette, ?array $tertiaryPalette = null): string
+    public function generateFilamentThemeVariables(array $primaryPalette, array $secondaryPalette, ?array $tertiaryPalette = null, ?array $statusColors = null): string
     {
         $css = '';
         
@@ -103,13 +290,28 @@ class ColorPaletteService
             }
         }
         
+        // Couleurs d'état si définies
+        if ($statusColors) {
+            foreach ($statusColors as $type => $colorPalette) {
+                if (is_array($colorPalette)) {
+                    // Si c'est une palette complète (50-900)
+                    foreach ($colorPalette as $shade => $color) {
+                        $css .= "  --color-{$type}-{$shade}: {$color};\n";
+                    }
+                } else {
+                    // Si c'est juste la couleur de base
+                    $css .= "  --color-{$type}: {$colorPalette};\n";
+                }
+            }
+        }
+        
         return $css;
     }
 
     /**
      * Met à jour un fichier CSS avec les nouvelles variables de thème
      */
-    public function updateCssFile(string $filePath, array $primaryPalette, array $secondaryPalette, ?array $tertiaryPalette = null): bool
+    public function updateCssFile(string $filePath, array $primaryPalette, array $secondaryPalette, ?array $tertiaryPalette = null, ?array $statusColors = null): bool
     {
         if (!file_exists($filePath)) {
             return false;
@@ -120,8 +322,8 @@ class ColorPaletteService
         // Détermine le type de variables à générer selon le fichier
         $isFilamentFile = strpos($filePath, 'filament') !== false;
         $themeVariables = $isFilamentFile 
-            ? $this->generateFilamentThemeVariables($primaryPalette, $secondaryPalette, $tertiaryPalette)
-            : $this->generateThemeVariables($primaryPalette, $secondaryPalette, $tertiaryPalette);
+            ? $this->generateFilamentThemeVariables($primaryPalette, $secondaryPalette, $tertiaryPalette, $statusColors)
+            : $this->generateThemeVariables($primaryPalette, $secondaryPalette, $tertiaryPalette, $statusColors);
         
         // Pattern pour détecter le bloc à remplacer
         $pattern = '/(\/\* color-schema-console-generated-start \*\/\s*\n)(.*?)(\/\* color-schema-console-generated-end \*\/)/s';
@@ -136,7 +338,7 @@ class ColorPaletteService
     /**
      * Met à jour le provider Filament avec les nouvelles couleurs
      */
-    public function updateFilamentProvider(string $primaryColor, string $secondaryColor): bool
+    public function updateFilamentProvider(string $primaryColor, string $secondaryColor, ?array $statusColors = null): bool
     {
         $providerPath = app_path('Providers/Filament/AdminPanelProvider.php');
         
@@ -146,10 +348,25 @@ class ColorPaletteService
 
         $content = file_get_contents($providerPath);
         
-        // Pattern pour détecter et remplacer les couleurs dans le provider
-        $pattern = '/->colors\(\s*\[\s*\'primary\'\s*=>\s*\'[^\']*\',\s*\'secondary\'\s*=>\s*\'[^\']*\',\s*\]\s*\)/';
+        // Construction du tableau des couleurs
+        $colorsArray = [
+            "'primary' => '{$primaryColor}'",
+            "'secondary' => '{$secondaryColor}'"
+        ];
         
-        $replacement = "->colors([\n                'primary' => '{$primaryColor}',\n                'secondary' => '{$secondaryColor}',\n            ])";
+        // Ajout des couleurs d'état si définies
+        if ($statusColors) {
+            foreach ($statusColors as $type => $color) {
+                $colorsArray[] = "'{$type}' => '{$color}'";
+            }
+        }
+        
+        $colorsString = "[\n                " . implode(",\n                ", $colorsArray) . ",\n            ]";
+        
+        // Pattern pour détecter et remplacer les couleurs dans le provider
+        $pattern = '/->colors\(\s*\[[\s\S]*?\]\s*\)/';
+        
+        $replacement = "->colors({$colorsString})";
         
         $updatedContent = preg_replace($pattern, $replacement, $content);
         

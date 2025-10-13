@@ -254,7 +254,7 @@ class PageForm
                             self::getPreviewAction()
                                 ->label('Prévisualiser la page')
                                 ->button()
-                                ->color('secondary')
+                                ->color('info')
                                 ->size('sm'),
                         ])
                         ->columnSpan(1),

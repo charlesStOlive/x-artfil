@@ -13,8 +13,8 @@
                             </svg>
                         </div>
                         <div>
-                            <h4 class="text-lg font-bold text-primary-500 mb-1">Email</h4>
-                            <p class="text-primary-700">{{ admin_setting('email', 'contact@example.com') }}</p>
+                            <h4 class="text-lg font-bold  mb-1">Email</h4>
+                            <p class="">{{ admin_setting('email', 'contact@example.com') }}</p>
                         </div>
                     </div>
 
@@ -26,7 +26,7 @@
                             </svg>
                         </div>
                         <div>
-                            <h4 class="text-lg font-bold text-primary-500 mb-1">Téléphone</h4>
+                            <h4 class="text-lg font-bold  mb-1">Téléphone</h4>
                             <p class="">{{ admin_setting('telephone', '+33 X XX XX XX XX') }}</p>
                         </div>
                     </div>
@@ -39,8 +39,8 @@
                             </svg>
                         </div>
                         <div>
-                            <h4 class="text-lg font-bold text-primary-500 mb-1">Adresse</h4>
-                            <p class="text-primary-700">{!! nl2br(e(admin_setting('adresse', '123 Rue de l\'Exemple, 75001 Paris'))) !!}</p>
+                            <h4 class="text-lg font-bold  mb-1">Adresse</h4>
+                            <p class="">{!! nl2br(e(admin_setting('adresse', '123 Rue de l\'Exemple, 75001 Paris'))) !!}</p>
                         </div>
                     </div>
 
@@ -52,7 +52,7 @@
                             </svg>
                         </div>
                         <div>
-                            <h4 class="text-lg font-bold text-primary-500 mb-1">Horaires</h4>
+                            <h4 class="text-lg font-bold  mb-1">Horaires</h4>
                             <p class="">{!! nl2br(e(admin_setting('horaire', 'Lundi - Vendredi: 9h00 - 18h00'))) !!}</p>
                         </div>
                     </div>

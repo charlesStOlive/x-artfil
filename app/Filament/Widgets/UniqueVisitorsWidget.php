@@ -46,15 +46,21 @@ class UniqueVisitorsWidget extends ChartWidget
         $data = [];
         
         // Utilisation des couleurs Filament
-        $primaryColor = FilamentColorHelper::getHexColor('primary');
-        $secondaryColor = FilamentColorHelper::getHexColor('secondary');
+        // Utilisation des couleurs Filament
+        $one = FilamentColorHelper::getHexColor('primary');
+        $two = FilamentColorHelper::getHexColor('secondary');
+        $three = FilamentColorHelper::getHexColor('info');
+        $for = FilamentColorHelper::getHexColor('success');
+        $five = FilamentColorHelper::getHexColor('error');
+        $six = FilamentColorHelper::getHexColor('warning');
         
         $colors = [
-            $primaryColor, 
-            $secondaryColor, 
-            FilamentColorHelper::addTransparency($primaryColor, 0.8), 
-            FilamentColorHelper::addTransparency($secondaryColor, 0.8), 
-            FilamentColorHelper::addTransparency($primaryColor, 0.6)
+            $one, 
+            $two, 
+            $three, 
+            $for, 
+            $five,
+            $six
         ];
 
         foreach ($browserStats as $index => $stat) {

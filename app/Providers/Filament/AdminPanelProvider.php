@@ -31,8 +31,12 @@ class AdminPanelProvider extends PanelProvider
             ->login()
             ->passwordReset()
             ->colors([
-                'primary' => '#B24030',
-                'secondary' => '#F7D463',
+                'primary' => '#FF2C2C',
+                'secondary' => '#eda55e',
+                'success' => '#24cd24',
+                'error' => '#a01515',
+                'warning' => '#bc6c1d',
+                'info' => '#3177bd',
             ])
             ->font('Inter')
             ->brandName('X-Artfil Admin')

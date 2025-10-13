@@ -12,22 +12,39 @@ Cette commande artisan génère automatiquement des palettes de couleurs complè
 
 La bibliothèque Iris est déjà installée via Composer. La commande est disponible immédiatement.
 
+## Modes de génération
+
+### 1. Mode Manuel
+Permet de spécifier manuellement les 3 couleurs (primaire, secondaire, tertiaire).
+
+### 2. Mode Split-Complémentaire ⭐ **RECOMMANDÉ**
+Génère automatiquement une palette harmonieuse basée sur le schéma split-complémentaire :
+- **Principe** : Couleur principale + les deux couleurs adjacentes à sa complémentaire
+- **Avantage** : Plus doux que le triadique, mais reste harmonieux et équilibré
+- **Exemple** : Rouge → Bleu-cyan + Vert-cyan (au lieu du cyan pur)
+
+### 3. Mode Analogique Simple
+Génère des couleurs adjacentes sur le cercle chromatique :
+- **Principe** : Couleurs voisines harmonieuses (+30° et -30°)
+- **Avantage** : Très harmonieux et apaisant
+- **Exemple** : Rouge → Rouge-orange + Rouge-violet
+
 ## Utilisation
 
 ### Mode commande avec options
 
 ```bash
-# Avec couleurs primaire et secondaire spécifiées
-php artisan generate:colors --primary=#B24030 --secondary=#F7D463
+# Mode split-complémentaire (recommandé) - génération automatique
+php artisan generate:colors --primary=#FF2C2C --mode=split-comp
 
-# Avec couleur tertiaire en plus
-php artisan generate:colors --primary=#B24030 --secondary=#F7D463 --tertiary=#10B981
+# Mode analogique simple - génération automatique  
+php artisan generate:colors --primary=#FF2C2C --mode=simple
 
-# Avec génération automatique de la couleur secondaire
-php artisan generate:colors --primary=#3B82F6 --secondary=auto
+# Mode manuel - toutes les couleurs spécifiées
+php artisan generate:colors --mode=manuel --primary=#B24030 --secondary=#F7D463 --tertiary=#10B981
 
-# Sans couleur tertiaire (évite la question en mode interactif)
-php artisan generate:colors --primary=#8B5CF6 --no-tertiary
+# Avec inversion des couleurs secondaire et tertiaire
+php artisan generate:colors --primary=#FF2C2C --mode=split-comp --swap
 ```
 
 ### Mode interactif
@@ -38,9 +55,9 @@ php artisan generate:colors
 
 La commande vous demandera :
 
-1. **Couleur primaire** : Format hex (ex: #B24030)
-2. **Couleur secondaire** : Format hex ou Entrée pour génération automatique  
-3. **Couleur tertiaire** : Format hex optionnel (Entrée pour ignorer)
+1. **Mode de génération** : manuel, split-comp, simple
+2. **Couleur primaire** : Format hex (ex: #B24030)
+3. **Couleurs supplémentaires** : Selon le mode choisi
 
 ## Fonctionnalités
 
@@ -163,32 +180,52 @@ Le fichier `AdminPanelProvider.php` doit contenir une section `colors()` :
 ])
 ```
 
-## Couleur secondaire automatique
+## Options avancées
 
-Quand `--secondary=auto` est utilisé ou que la couleur secondaire est laissée vide, la commande :
+### Option `--swap`
+Inverse les couleurs secondaire et tertiaire après génération. Utile pour tester différentes harmonies :
 
-1. Calcule la couleur complémentaire sur le cercle chromatique (+180°)
-2. Ajuste la saturation et luminosité pour une harmonie optimale
-3. Génère une palette complète à partir de cette couleur
+```bash
+# Génération normale
+php artisan generate:colors --primary=#FF2C2C --mode=split-comp
+
+# Génération avec inversion
+php artisan generate:colors --primary=#FF2C2C --mode=split-comp --swap
+```
+
+### Algorithmes de génération automatique
+
+#### Mode Split-Complémentaire
+- **Secondaire** : +150° sur le cercle chromatique (30° avant la complémentaire)
+- **Tertiaire** : +210° sur le cercle chromatique (30° après la complémentaire)  
+- Ajustement harmonieux de la saturation et luminosité
+
+#### Mode Analogique Simple  
+- **Secondaire** : +30° sur le cercle chromatique
+- **Tertiaire** : -30° sur le cercle chromatique
+- Variations subtiles de saturation et luminosité pour créer de l'intérêt
 
 ## Classes CSS partagées
 
 Les classes utilitaires comme `.prose-brush-primary` et `.prose-brush-secondary` restent dans `shared-utilities.css` et utilisent automatiquement les nouvelles variables CSS.
 
-## Exemple complet
+## Exemples complets
+
+### Mode Split-Complémentaire (Recommandé)
 
 ```bash
-# Génération avec couleurs spécifiques
-php artisan generate:colors --primary=#8B5CF6 --secondary=#10B981
+# Génération automatique split-complémentaire
+php artisan generate:colors --primary=#FF2C2C --mode=split-comp
 
 # Résultat affiché :
 🎨 Générateur de palettes de couleurs X-Artfil
 
-Couleur primaire: #8B5CF6
-Couleur secondaire: #10B981
+Couleur primaire: #FF2C2C
+Couleur secondaire: #2CFFCC (généré automatiquement)
+Couleur tertiaire: #CC2CFF (généré automatiquement)
 
 Génération des palettes de couleurs...
-# [Affichage des palettes complètes]
+# [Affichage des palettes complètes 50-900]
 
 Mise à jour des fichiers CSS...
 ✅ resources/css/front/front.css
@@ -198,6 +235,25 @@ Mise à jour du provider Filament...
 
 🎉 Génération terminée ! 2 fichier(s) CSS mis à jour.
 N'oubliez pas de recompiler vos assets (npm run build)
+```
+
+### Mode Analogique Simple
+
+```bash
+# Génération automatique analogique
+php artisan generate:colors --primary=#3B82F6 --mode=simple
+
+# Couleurs générées : Bleu → Bleu-violet + Bleu-vert
+```
+
+### Mode Manuel avec inversion
+
+```bash
+# Mode manuel avec inversion des couleurs
+php artisan generate:colors --mode=manuel --primary=#8B5CF6 --secondary=#10B981 --tertiary=#F59E0B --swap
+
+# 🔄 Couleurs secondaire et tertiaire inversées
+# Résultat : Primary=#8B5CF6, Secondary=#F59E0B, Tertiary=#10B981
 ```
 
 ## Après la génération

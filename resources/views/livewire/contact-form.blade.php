@@ -24,7 +24,7 @@
 
     {{-- Erreur de throttling --}}
     @error('throttle')
-        <div class="mb-6 p-4 bg-red-100 border border-red-500 rounded-lg">
+        <div class="mb-6 p-4 bg-red-100 border border-error-500 rounded-lg">
             <div class="flex items-center">
                 <svg class="w-5 h-5 text-red-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd"
@@ -38,7 +38,7 @@
 
     {{-- Erreur d'envoi --}}
     @error('send')
-        <div class="mb-6 p-4 bg-red-100 border border-red-500 rounded-lg">
+        <div class="mb-6 p-4 bg-red-100 border border-error-500 rounded-lg">
             <div class="flex items-center">
                 <svg class="w-5 h-5 text-red-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd"
@@ -54,87 +54,87 @@
         {{-- Prénom et Nom --}}
         <div class="grid md:grid-cols-2 gap-4">
             <div>
-                <label for="prenom" class="block font-medium text-primary-500 mb-2">
+                <label for="prenom" class="block font-medium text-secondary-600 mb-2">
                     Prénom
                 </label>
                 <input type="text" id="prenom" wire:model="prenom"
-                    class="w-full px-4 py-3 border border-primary-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors @error('prenom') border-red-500 @enderror"
+                    class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-colors @error('prenom') border-error-500 focus:ring-error-500 @else border-secondary-300 focus:ring-secondary-500 @enderror"
                     placeholder="Votre prénom">
                 @error('prenom')
-                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    <p class="mt-1 text-sm text-error-500">{{ $message }}</p>
                 @enderror
             </div>
             <div>
-                <label for="nom" class="block font-medium text-primary-500 mb-2">
+                <label for="nom" class="block font-medium text-secondary-600 mb-2">
                     Nom
                 </label>
                 <input type="text" id="nom" wire:model="nom"
-                    class="w-full px-4 py-3 border border-primary-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors @error('nom') border-red-500 @enderror"
+                    class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-colors @error('nom') border-error-500 focus:ring-error-500 @else border-secondary-300 focus:ring-secondary-500 @enderror"
                     placeholder="Votre nom">
                 @error('nom')
-                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    <p class="mt-1 text-sm text-error-500">{{ $message }}</p>
                 @enderror
             </div>
         </div>
 
         {{-- Email --}}
         <div>
-            <label for="email" class="block font-medium text-primary-500 mb-2">
-                Email <span class="text-secondary-500">*</span>
+            <label for="email" class="block font-medium text-secondary-600 mb-2">
+                Email <span class="text-secondary-700">*</span>
             </label>
             <input type="email" id="email" wire:model="email"
-                class="w-full px-4 py-3 border border-primary-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors @error('email') border-red-500 @enderror"
+                class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-colors @error('email') border-error-500 focus:ring-error-500 @else border-secondary-300 focus:ring-secondary-500 @enderror"
                 placeholder="votre@email.com">
             @error('email')
-                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                <p class="mt-1 text-sm text-error-500">{{ $message }}</p>
             @enderror
         </div>
 
         {{-- Téléphone --}}
         <div>
-            <label for="telephone" class="block font-medium text-primary-500 mb-2">
+            <label for="telephone" class="block font-medium text-secondary-600 mb-2">
                 Téléphone
             </label>
             <input type="tel" id="telephone" wire:model="telephone"
-                class="w-full px-4 py-3 border border-primary-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors @error('telephone') border-red-500 @enderror"
+                class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-colors @error('telephone') border-error-500 focus:ring-error-500 @else border-secondary-300 focus:ring-secondary-500 @enderror"
                 placeholder="+33 6 12 34 56 78">
             @error('telephone')
-                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                <p class="mt-1 text-sm text-error-500">{{ $message }}</p>
             @enderror
         </div>
 
         {{-- Objet --}}
         <div>
-            <label for="objet" class="block font-medium text-primary-500 mb-2">
-                Objet <span class="text-secondary-500">*</span>
+            <label for="objet" class="block font-medium text-secondary-600 mb-2">
+                Objet <span class="text-secondary-700">*</span>
             </label>
             <input type="text" id="objet" wire:model="objet"
-                class="w-full px-4 py-3 border border-primary-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors @error('objet') border-red-500 @enderror"
+                class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-colors @error('objet') border-error-500 focus:ring-error-500 @else border-secondary-300 focus:ring-secondary-500 @enderror"
                 placeholder="Sujet de votre message">
             @error('objet')
-                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                <p class="mt-1 text-sm text-error-500">{{ $message }}</p>
             @enderror
         </div>
 
         {{-- Message --}}
         <div>
-            <label for="message" class="block font-medium text-primary-500 mb-2">
-                Message <span class="text-secondary-500">*</span>
+            <label for="message" class="block font-medium text-secondary-600 mb-2">
+                Message <span class="text-secondary-700">*</span>
             </label>
             <textarea id="message" wire:model="message" rows="4"
-                class="w-full px-4 py-3 border border-primary-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors resize-none @error('message') border-red-500 @enderror"
+                class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-colors resize-none @error('message') border-error-500 focus:ring-error-500 @else border-secondary-300 focus:ring-secondary-500 @enderror"
                 placeholder="Parlez-moi de vos attentes et de vos objectifs..."></textarea>
             @error('message')
-                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                <p class="mt-1 text-sm text-error-500">{{ $message }}</p>
             @enderror
-            <div class="mt-1 text-sm text-primary">
-                <span wire:ignore>{{ strlen($message) }}</span>/1000 caractères
+            <div class="mt-1 text-sm text-secondary-600">
+                <span wire:ignore>{{ strlen($this->message) }}</span>/1000 caractères
             </div>
         </div>
 
         {{-- Bouton d'envoi --}}
         <button type="submit" wire:loading.attr="disabled" wire:target="submit"
-            class="w-full btn-base relative inline-flex items-center justify-center rounded bg-primary-500 px-4 py-2 text-white pl-10">
+            class="w-full btn-base relative inline-flex items-center justify-center rounded bg-secondary-500 px-4 py-2 text-white pl-10">
             <!-- Spinner collé à gauche (place réservée par pl-10) -->
             <svg wire:loading wire:target="submit" class="animate-spin h-5 w-5 absolute left-3"
                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
@@ -152,7 +152,7 @@
 
         {{-- Information --}}
         <p class="text-sm text-gray-500 text-center">
-            Les champs marqués d'un <span class="text-primary">*</span> sont obligatoires.
+            Les champs marqués d'un <span class="text-secondary-">*</span> sont obligatoires.
         </p>
     </form>
 </div>
