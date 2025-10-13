@@ -15,7 +15,7 @@
                     default => '#'
                 };
             @endphp
-            <a href="{{ $href }}" class="btn-base text-white {{ $bouton['couleur'] === 'primary' ? 'bg-primary' : 'bg-secondary' }}">
+            <a href="{{ $href }}" class="btn-base text-white {{ $bouton['couleur'] === 'primary' ? 'bg-primary-500' : 'bg-secondary-500' }}">
                 {{ $bouton['texte'] ?? 'Bouton' }}
             </a>
         @endforeach

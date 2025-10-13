@@ -8,7 +8,7 @@
                     Une application moderne développée avec Laravel et Filament, offrant des solutions innovantes.
                 </p>
                 <div class="mt-4">
-                    <a href="{{ url('/admin') }}" class="inline-flex items-center text-primary hover:text-primary-dark text-sm font-medium">
+                    <a href="{{ url('/admin') }}" class="inline-flex items-center text-primary-500 hover:text-primary-700 text-sm font-medium">
                         <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
                         </svg>
@@ -22,9 +22,9 @@
                 <h3 class="text-lg font-semibold text-gray-900 mb-4">Navigation</h3>
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-2">
                     <ul class="space-y-2">
-                        <li><a href="{{ url('/') }}" class="text-gray-600 hover:text-primary transition-colors text-sm">Accueil</a></li>
+                        <li><a href="{{ url('/') }}" class="text-gray-600 hover:text-primary-500 transition-colors text-sm">Accueil</a></li>
                         @foreach($footerPages as $page)
-                            <li><a href="{{ route('page', ['slug' => $page->slug]) }}" class="text-gray-600 hover:text-primary transition-colors text-sm">{{ $page->titre }}</a></li>
+                            <li><a href="{{ route('page', ['slug' => $page->slug]) }}" class="text-gray-600 hover:text-primary-500 transition-colors text-sm">{{ $page->titre }}</a></li>
                         @endforeach
                     </ul>
                 </div>
@@ -62,9 +62,9 @@
             <p class="text-gray-600 text-sm">
                 &copy; {{ date('Y') }} X-Artfil. Tous droits réservés. 
                 Développé par 
-                <a href="https://www.notilac.fr" class="text-primary hover:text-primary-dark">Notilac</a> avec ❤️ en utilisant 
-                <a href="https://laravel.com" class="text-primary hover:text-primary-dark">Laravel</a> et 
-                <a href="https://filamentphp.com" class="text-primary hover:text-primary-dark">Filament</a>.
+                <a href="https://www.notilac.fr" class="text-primary-500 hover:text-primary-700">Notilac</a> avec ❤️ en utilisant 
+                <a href="https://laravel.com" class="text-primary-500 hover:text-primary-700">Laravel</a> et 
+                <a href="https://filamentphp.com" class="text-primary-500 hover:text-primary-700">Filament</a>.
             </p>
         </div>
     </div>

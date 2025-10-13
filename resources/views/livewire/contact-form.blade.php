@@ -54,22 +54,22 @@
         {{-- Prénom et Nom --}}
         <div class="grid md:grid-cols-2 gap-4">
             <div>
-                <label for="prenom" class="block font-medium text-primary mb-2">
+                <label for="prenom" class="block font-medium text-primary-500 mb-2">
                     Prénom
                 </label>
                 <input type="text" id="prenom" wire:model="prenom"
-                    class="w-full px-4 py-3 border border-primary-light rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors @error('prenom') border-red-500 @enderror"
+                    class="w-full px-4 py-3 border border-primary-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors @error('prenom') border-red-500 @enderror"
                     placeholder="Votre prénom">
                 @error('prenom')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
             </div>
             <div>
-                <label for="nom" class="block font-medium text-primary mb-2">
+                <label for="nom" class="block font-medium text-primary-500 mb-2">
                     Nom
                 </label>
                 <input type="text" id="nom" wire:model="nom"
-                    class="w-full px-4 py-3 border border-primary-light rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors @error('nom') border-red-500 @enderror"
+                    class="w-full px-4 py-3 border border-primary-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors @error('nom') border-red-500 @enderror"
                     placeholder="Votre nom">
                 @error('nom')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -79,11 +79,11 @@
 
         {{-- Email --}}
         <div>
-            <label for="email" class="block font-medium text-primary mb-2">
-                Email <span class="text-secondary">*</span>
+            <label for="email" class="block font-medium text-primary-500 mb-2">
+                Email <span class="text-secondary-500">*</span>
             </label>
             <input type="email" id="email" wire:model="email"
-                class="w-full px-4 py-3 border border-primary-light rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors @error('email') border-red-500 @enderror"
+                class="w-full px-4 py-3 border border-primary-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors @error('email') border-red-500 @enderror"
                 placeholder="votre@email.com">
             @error('email')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -92,11 +92,11 @@
 
         {{-- Téléphone --}}
         <div>
-            <label for="telephone" class="block font-medium text-primary mb-2">
+            <label for="telephone" class="block font-medium text-primary-500 mb-2">
                 Téléphone
             </label>
             <input type="tel" id="telephone" wire:model="telephone"
-                class="w-full px-4 py-3 border border-primary-light rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors @error('telephone') border-red-500 @enderror"
+                class="w-full px-4 py-3 border border-primary-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors @error('telephone') border-red-500 @enderror"
                 placeholder="+33 6 12 34 56 78">
             @error('telephone')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -105,11 +105,11 @@
 
         {{-- Objet --}}
         <div>
-            <label for="objet" class="block font-medium text-primary mb-2">
-                Objet <span class="text-secondary">*</span>
+            <label for="objet" class="block font-medium text-primary-500 mb-2">
+                Objet <span class="text-secondary-500">*</span>
             </label>
             <input type="text" id="objet" wire:model="objet"
-                class="w-full px-4 py-3 border border-primary-light rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors @error('objet') border-red-500 @enderror"
+                class="w-full px-4 py-3 border border-primary-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors @error('objet') border-red-500 @enderror"
                 placeholder="Sujet de votre message">
             @error('objet')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -118,11 +118,11 @@
 
         {{-- Message --}}
         <div>
-            <label for="message" class="block font-medium text-primary mb-2">
-                Message <span class="text-secondary">*</span>
+            <label for="message" class="block font-medium text-primary-500 mb-2">
+                Message <span class="text-secondary-500">*</span>
             </label>
             <textarea id="message" wire:model="message" rows="4"
-                class="w-full px-4 py-3 border border-primary-light rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors resize-none @error('message') border-red-500 @enderror"
+                class="w-full px-4 py-3 border border-primary-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors resize-none @error('message') border-red-500 @enderror"
                 placeholder="Parlez-moi de vos attentes et de vos objectifs..."></textarea>
             @error('message')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -134,7 +134,7 @@
 
         {{-- Bouton d'envoi --}}
         <button type="submit" wire:loading.attr="disabled" wire:target="submit"
-            class="w-full btn-base relative inline-flex items-center justify-center rounded bg-primary px-4 py-2 text-white pl-10">
+            class="w-full btn-base relative inline-flex items-center justify-center rounded bg-primary-500 px-4 py-2 text-white pl-10">
             <!-- Spinner collé à gauche (place réservée par pl-10) -->
             <svg wire:loading wire:target="submit" class="animate-spin h-5 w-5 absolute left-3"
                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">

@@ -72,7 +72,7 @@ class AnalyticsStatsWidget extends StatsOverviewWidget
             Stat::make('Visiteurs uniques', $uniqueVisitorsToday)
                 ->description('Adresses IP distinctes aujourd\'hui')
                 ->descriptionIcon('heroicon-m-users')
-                ->color('info')
+                ->color('primary')
                 ->chart([3, 5, 7, 4, $uniqueVisitorsToday]),
 
             Stat::make('Visites cette semaine', $thisWeekVisits)
@@ -82,12 +82,12 @@ class AnalyticsStatsWidget extends StatsOverviewWidget
                 )
                 ->descriptionIcon($weekChange >= 0 ? 'heroicon-m-arrow-trending-up' : 'heroicon-m-arrow-trending-down')
                 ->color($weekChange >= 0 ? 'success' : 'danger')
-                ->chart([12, 18, 25, 20, $thisWeekVisits]),
+                ->chart($weekChange >= 0 ? [12, 18, 25, 20, $thisWeekVisits] : [$thisWeekVisits,20, 25, 18, 12]),
 
             Stat::make('Page populaire', $pageName)
                 ->description($pageDescription)
                 ->descriptionIcon('heroicon-m-eye')
-                ->color('warning')
+                ->color('secondary')
                 ->chart([1, 3, 2, 5, $topPageToday ? $topPageToday->visits : 0]),
         ];
     }

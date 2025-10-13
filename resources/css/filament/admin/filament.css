@@ -13,10 +13,28 @@
 @theme {
   --font-sans: 'Poppins', ui-sans-serif, system-ui, sans-serif;
   --font-heading: 'Comfortaa', ui-sans-serif, system-ui, sans-serif;
-  --color-primary: var(--color-art-primary);
-  --color-primary-dark: var(--color-art-primary-dark);
-  --color-secondary: var(--color-art-secondary);
-  --color-secondary-dark: var(--color-art-secondary-dark);
+  /* color-schema-console-generated-start */
+  --color-primary-50: #faedeb;
+  --color-primary-100: #f4dad7;
+  --color-primary-200: #eab5ae;
+  --color-primary-300: #df9086;
+  --color-primary-400: #d46c5e;
+  --color-primary-500: #B24030;
+  --color-primary-600: #a1392b;
+  --color-primary-700: #792a20;
+  --color-primary-800: #511c15;
+  --color-primary-900: #280e0b;
+  --color-secondary-50: #fef8e7;
+  --color-secondary-100: #fcf2cf;
+  --color-secondary-200: #fae49e;
+  --color-secondary-300: #f7d76e;
+  --color-secondary-400: #f5ca3d;
+  --color-secondary-500: #F7D463;
+  --color-secondary-600: #c2970a;
+  --color-secondary-700: #917108;
+  --color-secondary-800: #614b05;
+  --color-secondary-900: #302603;
+  /* color-schema-console-generated-end */
 }
 
 

@@ -3,8 +3,9 @@
 namespace App\Filament\Widgets;
 
 use Filament\Widgets\ChartWidget;
-use Shetabit\Visitor\Models\Visit;
 use Illuminate\Support\Facades\DB;
+use Shetabit\Visitor\Models\Visit;
+use App\Services\FilamentColorHelper;
 
 class AnalyticsChartWidget extends ChartWidget
 {
@@ -17,6 +18,8 @@ class AnalyticsChartWidget extends ChartWidget
     protected ?string $maxHeight = '300px';
     
     public ?string $filter = '7days';
+
+
 
     protected function getData(): array
     {
@@ -51,21 +54,25 @@ class AnalyticsChartWidget extends ChartWidget
             $uniqueVisitors[] = $dayUniqueVisitors;
         }
 
+        // Récupération des couleurs Filament
+        $primaryColor = FilamentColorHelper::getHexColor('primary');
+        $secondaryColor = FilamentColorHelper::getHexColor('secondary');
+        
         return [
             'datasets' => [
                 [
                     'label' => 'Visites totales',
                     'data' => $visits,
-                    'backgroundColor' => '#3B82F6',
-                    'borderColor' => '#1D4ED8',
-                    'borderWidth' => 1,
+                    'backgroundColor' => FilamentColorHelper::addTransparency($primaryColor, 0.8),
+                    'borderColor' => $primaryColor,
+                    'borderWidth' => 2,
                 ],
                 [
                     'label' => 'Visiteurs uniques',
                     'data' => $uniqueVisitors,
-                    'backgroundColor' => '#10B981',
-                    'borderColor' => '#059669',
-                    'borderWidth' => 1,
+                    'backgroundColor' => FilamentColorHelper::addTransparency($secondaryColor, 0.8),
+                    'borderColor' => $secondaryColor,
+                    'borderWidth' => 2,
                 ],
             ],
             'labels' => $labels,
@@ -97,21 +104,25 @@ class AnalyticsChartWidget extends ChartWidget
             $uniqueVisitors[] = $monthUniqueVisitors;
         }
 
+        // Récupération des couleurs Filament
+        $primaryColor = FilamentColorHelper::getHexColor('primary');
+        $secondaryColor = FilamentColorHelper::getHexColor('secondary');
+        
         return [
             'datasets' => [
                 [
                     'label' => 'Visites totales',
                     'data' => $visits,
-                    'backgroundColor' => '#3B82F6',
-                    'borderColor' => '#1D4ED8',
-                    'borderWidth' => 1,
+                    'backgroundColor' => FilamentColorHelper::addTransparency($primaryColor, 0.8),
+                    'borderColor' => $primaryColor,
+                    'borderWidth' => 2,
                 ],
                 [
                     'label' => 'Visiteurs uniques',
                     'data' => $uniqueVisitors,
-                    'backgroundColor' => '#10B981',
-                    'borderColor' => '#059669',
-                    'borderWidth' => 1,
+                    'backgroundColor' => FilamentColorHelper::addTransparency($secondaryColor, 0.8),
+                    'borderColor' => $secondaryColor,
+                    'borderWidth' => 2,
                 ],
             ],
             'labels' => $labels,

@@ -18,9 +18,9 @@
 
                 
                 @elseif ($couleurPrimaire === 'primary')
-                    prose-strong:text-primary
+                    prose-strong:text-primary-500
                 @elseif ($couleurPrimaire === 'secondary')
-                    prose-strong:text-secondary @endif
+                    prose-strong:text-secondary-500 @endif
 ">
             {!! $title !!}
         </div>

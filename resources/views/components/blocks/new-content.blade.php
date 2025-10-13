@@ -106,7 +106,7 @@
             @if ($data['afficher_separateur'] ?? true)
                 <div class="mt-16 flex justify-center">
                     <div
-                        class="w-24 h-1 {{ ($data['couleur_primaire'] ?? 'secondary') === 'primary' ? 'bg-primary' : 'bg-secondary' }} rounded-full">
+                        class="w-24 h-1 {{ ($data['couleur_primaire'] ?? 'secondary') === 'primary' ? 'bg-primary-500' : 'bg-secondary-500' }} rounded-full">
                     </div>
                 </div>
             @endif

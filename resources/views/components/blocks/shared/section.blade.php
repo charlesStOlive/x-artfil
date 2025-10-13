@@ -22,9 +22,9 @@
     @if ($directionCouleur !== 'aucun')
         <div
             class="absolute inset-0 
-            @if ($directionCouleur === 'primaire-secondaire') bg-gradient-to-br from-primary/40 to-secondary/40
+            @if ($directionCouleur === 'primaire-secondaire') bg-gradient-to-br from-primary-500/40 to-secondary-500/40
             @else
-                bg-gradient-to-br from-secondary/40 to-primary/40 @endif">
+                bg-gradient-to-br from-secondary-500/40 to-primary-500/40 @endif">
         </div>
     @endif
 
@@ -44,7 +44,7 @@
 
     @if ($separator)
         <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2">
-            <div class="w-64 h-1 {{ $couleurPrimaire === 'primary' ? 'bg-primary' : 'bg-secondary' }} rounded-full">
+            <div class="w-64 h-1 {{ $couleurPrimaire === 'primary' ? 'bg-primary-500' : 'bg-secondary-500' }} rounded-full">
             </div>
         </div>
     @endif

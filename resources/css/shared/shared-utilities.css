@@ -1,18 +1,9 @@
 /* ===== STYLES PARTAGÉS QUI ÉTAIENT DANS VOS FICHIERS ORIGINAUX ===== */
 
-/* Variables communes (étaient dans les deux :root) */
-:root {
-    --color-art-primary: #B24030;
-    --color-art-primary-light: #CC5541;
-    --color-art-primary-dark: #8B2E20;
-    --color-art-secondary: #F7D463;
-    --color-art-secondary-light: #F9DF7F;
-    --color-art-secondary-dark: #E5C045;
-    /* Mapping pour Filament */
-    --color-primary-base: var(--color-art-primary);
-    --color-primary-light: var(--color-art-primary-light);
-    --color-primary-dark: var(--color-art-primary-dark);
-}
+/* 
+ * Variables communes - Ces variables sont maintenant définies dans les fichiers @theme individuels 
+ * via la commande generate:colors 
+ */
 
 
 
@@ -44,17 +35,17 @@
     z-index: -1;
 }
 
-/* Dans votre fichier CSS */
+/* Utilisation des palettes Tailwind générées par la commande */
 .prose-brush-primary strong::before,
 .prose-brush-primary b::before,
 .prose-brush-primary .font-bold::before {
-    background: linear-gradient(135deg,  var(--color-art-primary-dark), var(--color-art-primary-light));
+    background: linear-gradient(135deg, var(--color-primary-700), var(--color-primary-300));
 }
 
 .prose-brush-secondary strong::before,
 .prose-brush-secondary b::before,
 .prose-brush-secondary .font-bold::before {
-    background: linear-gradient(135deg, var(--color-art-secondary-dark), var(--color-art-secondary-light));
+    background: linear-gradient(135deg, var(--color-secondary-700), var(--color-secondary-300));
 }
 
 /* Masque SVG pour les images */

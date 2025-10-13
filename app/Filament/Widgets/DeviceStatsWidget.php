@@ -5,6 +5,7 @@ namespace App\Filament\Widgets;
 use Filament\Widgets\ChartWidget;
 use Shetabit\Visitor\Models\Visit;
 use Illuminate\Support\Facades\DB;
+use App\Services\FilamentColorHelper;
 
 class DeviceStatsWidget extends ChartWidget
 {
@@ -30,8 +31,6 @@ class DeviceStatsWidget extends ChartWidget
                 'datasets' => [
                     [
                         'data' => [1],
-                        'backgroundColor' => ['#E5E7EB'],
-                        'borderWidth' => 0,
                     ],
                 ],
                 'labels' => ['Aucune donnée'],
@@ -40,7 +39,18 @@ class DeviceStatsWidget extends ChartWidget
 
         $labels = [];
         $data = [];
-        $colors = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6'];
+        
+        // Utilisation des couleurs Filament
+        $primaryColor = FilamentColorHelper::getHexColor('primary');
+        $secondaryColor = FilamentColorHelper::getHexColor('secondary');
+        
+        $colors = [
+            $primaryColor, 
+            $secondaryColor, 
+            FilamentColorHelper::addTransparency($primaryColor, 0.8), 
+            FilamentColorHelper::addTransparency($secondaryColor, 0.8), 
+            FilamentColorHelper::addTransparency($primaryColor, 0.6)
+        ];
 
         foreach ($deviceStats as $index => $stat) {
             $labels[] = ucfirst($stat->device);
