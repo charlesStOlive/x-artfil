@@ -10,9 +10,9 @@ class FrontAppAnimations {
     }
 
     init() {
-        //this.setupIntersectionObserver();
-        //this.setupParallaxEffects();
-        //this.setupAnimations();
+        this.setupIntersectionObserver();
+        this.setupParallaxEffects();
+        this.setupAnimations();
         console.log('✨ Animations component initialized');
     }
 
@@ -26,21 +26,28 @@ class FrontAppAnimations {
         const mainObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    // Récupérer le délai personnalisé s'il existe
-                    const customDelay = entry.target.getAttribute('data-animation-delay');
+                    // Marquer l'élément comme "en cours de traitement" pour éviter les doubles animations
+                    if (entry.target.hasAttribute('data-animation-processing')) {
+                        return;
+                    }
+                    entry.target.setAttribute('data-animation-processing', 'true');
                     
-                    if (customDelay) {
-                        // Si un délai personnalisé est défini, l'utiliser
+                    // Vérifier si cet élément fait partie d'un groupe d'animation
+                    const parent = entry.target.closest('.grid, .flex, .space-y-8, .space-y-6, .space-y-4');
+                    const isPartOfGroup = parent && parent.querySelectorAll('.fade-in-up, .fade-in-left, .fade-in-right').length > 1;
+                    
+                    if (isPartOfGroup) {
+                        // Si c'est un groupe, traiter tout le groupe ensemble
+                        this.animateGroup(parent);
+                    } else {
+                        // Sinon, animer individuellement avec son délai
+                        const customDelay = entry.target.getAttribute('data-animation-delay');
+                        const delay = customDelay ? parseInt(customDelay) : 0;
+                        
                         setTimeout(() => {
                             entry.target.classList.add('visible');
-                        }, parseInt(customDelay));
-                    } else {
-                        // Sinon, animation immédiate
-                        entry.target.classList.add('visible');
+                        }, delay);
                     }
-                    
-                    // Animation en cascade pour les éléments groupés
-                    this.animateGroup(entry.target);
                     
                     // Une fois animé, on arrête d'observer cet élément
                     mainObserver.unobserve(entry.target);
@@ -57,22 +64,29 @@ class FrontAppAnimations {
         this.observers.set('main', mainObserver);
     }
 
-    animateGroup(triggerElement) {
-        const parent = triggerElement.closest('.grid, .flex, .space-y-8, .space-y-6, .space-y-4');
-        if (!parent) return;
-
+    animateGroup(parent) {
         const siblings = parent.querySelectorAll('.fade-in-up, .fade-in-left, .fade-in-right');
         if (siblings.length <= 1) return;
 
+        // Marquer tous les éléments du groupe comme en cours de traitement
+        siblings.forEach(sibling => {
+            sibling.setAttribute('data-animation-processing', 'true');
+        });
+
         siblings.forEach((sibling, index) => {
-            if (sibling !== triggerElement && !sibling.classList.contains('visible')) {
-                // Utiliser le délai personnalisé s'il existe, sinon délai en cascade
+            if (!sibling.classList.contains('visible')) {
+                // Prioriser le délai personnalisé, sinon utiliser le délai en cascade
                 const customDelay = sibling.getAttribute('data-animation-delay');
-                const finalDelay = customDelay ? parseInt(customDelay) : index * 150;
+                const cascadeDelay = index * 150;
+                const finalDelay = customDelay ? parseInt(customDelay) : cascadeDelay;
                 
                 setTimeout(() => {
                     sibling.classList.add('visible');
+                    sibling.removeAttribute('data-animation-processing');
                 }, finalDelay);
+            } else {
+                // Si déjà visible, supprimer le marqueur
+                sibling.removeAttribute('data-animation-processing');
             }
         });
     }

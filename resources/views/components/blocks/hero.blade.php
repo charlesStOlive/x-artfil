@@ -18,6 +18,7 @@
         'couche_blanc' => $data['couche_blanc'] ?? 'aucun',
         'direction_couleur' => $data['direction_couleur'] ?? 'aucun',
         'is_hidden' => $data['is_hidden'] ?? false,
+        'minH70vh' => $data['minH70vh'] ?? true,
     ];
 @endphp
 
@@ -28,7 +29,7 @@
             <x-blocks.shared.title :title="$data['html_title']" :couleur-primaire="$data['couleur_primaire'] ?? 'secondary'" isH1=true class="fade-in-up" />
         @endif
         @if ($data['description'] ?? null)
-            <x-blocks.shared.description :description="$data['description']" />
+            <x-blocks.shared.description :description="$data['description']" class="fade-in-up" data-animation-delay="200" />
         @endif
         <x-blocks.shared.button-group :boutons="$data['boutons'] ?? []" class="fade-in-up" data-animation-delay="400" />
     </div>

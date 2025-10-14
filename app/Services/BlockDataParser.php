@@ -221,7 +221,7 @@ class BlockDataParser
      */
     private function resolvePreviewImage(mixed $image): ?string
     {
-        \Log::info('resolvePreviewImage');
+
         if (is_string($image)) {
             if (str_contains($image, '/storage/livewire-tmp/') || str_contains($image, 'http')) {
                 return $image;

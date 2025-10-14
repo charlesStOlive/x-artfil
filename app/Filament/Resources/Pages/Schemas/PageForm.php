@@ -513,6 +513,10 @@ class PageForm
                             Toggle::make('is_hidden')
                                 ->label('Cacher temporairement ce bloc')
                                 ->default(false),
+                            Toggle::make('minH70vh')
+                                ->label('Hauteur minimale 70vh')
+                                ->helperText('Active une hauteur minimale de 70% de la hauteur de l\'écran')
+                                ->default(true),
                         ])
                         ->columnSpan(1),
                     static::getGridBgImage(),
@@ -557,6 +561,10 @@ class PageForm
                                 ->default(true),
                             Toggle::make('is_hidden')
                                 ->label('Cacher temporairement ce bloc')
+                                ->default(false),
+                            Toggle::make('minH70vh')
+                                ->label('Hauteur minimale 70vh')
+                                ->helperText('Active une hauteur minimale de 70% de la hauteur de l\'écran')
                                 ->default(false),
                         ])
                         ->columnSpan(1),

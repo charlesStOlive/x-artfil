@@ -12,10 +12,11 @@
     $coucheBlanc = $data['couche_blanc'] ?? 'aucun';
     $directionCouleur = $data['direction_couleur'] ?? 'aucun';
     $is_hidden = $data['is_hidden'] ?? false;
+    $minH70vh = $data['minH70vh'] ?? false;
 @endphp
 
 <section {{ $anchor ? 'id=' . $anchor : '' }}
-    class="relative p-8 md:p-16 {{ $backgroundImage ? 'bg-cover bg-center' : 'bg-white' }} {{ $class }} {{ $mode === 'preview' ? 'min-h-[120px]' : '' }}"
+    class="{{ $mode === 'preview' ? 'min-h-[120px]' : '' }} relative p-8 md:p-16 {{ $minH70vh ? 'min-h-[70vh]' : '' }} {{ $backgroundImage ? 'bg-cover bg-center' : 'bg-white' }} {{ $class }} flex items-center"
     @if ($backgroundImage) style="background-image: url('{{ $backgroundImage }}')" @endif>
 
     {{-- Overlays pour image de fond de section --}}
@@ -38,7 +39,7 @@
     @endif
 
     {{-- Contenu de la section via le slot --}}
-    <div class="relative z-2">
+    <div class="relative z-2 w-full">
         {{ $slot }}
     </div>
 

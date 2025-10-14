@@ -121,15 +121,13 @@
             <label for="message" class="block font-medium text-secondary-600 mb-2">
                 Message <span class="text-secondary-700">*</span>
             </label>
-            <textarea id="message" wire:model="message" rows="4"
-                class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-colors resize-none @error('message') border-error-500 focus:ring-error-500 @else border-secondary-300 focus:ring-secondary-500 @enderror"
+            <textarea id="content" wire:model="content" rows="4"
+                class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-colors resize-none @error('content') border-error-500 focus:ring-error-500 @else border-secondary-300 focus:ring-secondary-500 @enderror"
                 placeholder="Parlez-moi de vos attentes et de vos objectifs..."></textarea>
-            @error('message')
+            @error('content')
                 <p class="mt-1 text-sm text-error-500">{{ $message }}</p>
             @enderror
-            <div class="mt-1 text-sm text-secondary-600">
-                <span wire:ignore>{{ strlen($this->message) }}</span>/1000 caractères
-            </div>
+            
         </div>
 
         {{-- Bouton d'envoi --}}

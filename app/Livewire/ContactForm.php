@@ -26,7 +26,7 @@ class ContactForm extends Component
     public string $objet = '';
     
     #[Validate('required|min:10|max:1000')]
-    public string $message = '';
+    public string $content = '';
     
     public bool $success = false;
     public string $successMessage = '';
@@ -70,14 +70,14 @@ class ContactForm extends Component
             $this->successMessage = 'Votre message a été envoyé avec succès ! Nous vous répondrons dans les plus brefs délais.';
             
             // Réinitialisation du formulaire
-            $this->reset(['prenom', 'nom', 'email', 'telephone', 'objet', 'message']);
+            $this->reset(['prenom', 'nom', 'email', 'telephone', 'objet', 'content']);
             
             // Effacer le throttling en cas de succès
             RateLimiter::clear($key);
             
         } catch (\Exception $e) {
             $this->addError('send', 'Une erreur est survenue lors de l\'envoi. Veuillez réessayer.');
-            \Log::error('Erreur envoi formulaire contact: ' . $e->getMessage());
+
         }
     }
 
@@ -90,14 +90,14 @@ class ContactForm extends Component
             'email' => $this->email,
             'telephone' => $this->telephone,
             'objet' => $this->objet,
-            'message' => $this->message,
+            'content' => $this->content,
             'date' => now()->format('d/m/Y H:i'),
         ];
 
         // Récupération de l'email récepteur depuis les paramètres administrateur
         $adminSettings = app(AdminSettings::class);
-        // $mailRecepteur = $adminSettings->mailRecepteur ?? config('mail.contact_email', 'contact@votre-site.com');
-        $mailRecepteur = 'charles@notilac.fr';
+        $mailRecepteur = $adminSettings->mailRecepteur ?? config('mail.contact_email', 'charles@notilac.fr');
+
 
         // Envoi du mail
         Mail::send('emails.contact', $data, function($message) use ($mailRecepteur) {

@@ -41,7 +41,7 @@ class OptimizingFileUpload extends FileUpload
 
         // Force l'override du callback d'optimisation
         $this->saveUploadedFileUsing(static function (OptimizingFileUpload $component, TemporaryUploadedFile $file): ?string {
-            \Log::info('OptimizingFileUpload: saveUploadedFileUsing callback');
+            
             // 1) Si on nous demande une conversion webp + preserveFilenames => erreur explicite
             if (
                     $component->evaluate($component->optimizeFormat) === 'webp'
@@ -56,14 +56,14 @@ class OptimizingFileUpload extends FileUpload
                 // 2) Non-image => fallback standard Filament
                 if (! str_contains($file->getMimeType(), 'image')) {
                     $method = $component->getVisibility() === 'public' ? 'storePubliclyAs' : 'storeAs';
-                    \Log::info('OptimizingFileUpload: non-image upload, using standard Filament storage');
+                    
                     return $file->{$method}(
                         trim($component->getDirectory() ?? '', '/'),
                         $file->getClientOriginalName(),
                         $component->getDiskName()
                     );
                 } else {
-                    \Log::info('OptimizingFileUpload: processing image upload');
+                    \Log::error('OptimizingFileUpload: processing image upload');
                 }
 
                 // 3) Image => ouvrir avec Intervention + orienter

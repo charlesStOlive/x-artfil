@@ -89,7 +89,7 @@
         
         <div class="field">
             <label>💬 Message :</label>
-            <div class="message-content">AAAAA</div>
+            <div class="message-content">{{ $content }}</div>
         </div>
     </div>
     

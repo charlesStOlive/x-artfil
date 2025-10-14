@@ -17,7 +17,7 @@ class HomePage extends Component
         
         // Récupérer la page par slug ou afficher 404
         $this->page = Page::where('is_homepage', true)->first();
-        \Log::info($this->page);
+
         if (!$this->page) {
             abort(404, "Page '{$slug}' non trouvée");
         }
