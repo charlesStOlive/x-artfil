@@ -8,11 +8,11 @@
 @if ($title)
     <div class="text-center mx-auto  {{ $class }}">
         <div
-            class="font-bold text-gray-900 font-heading
-            @if ($isH1) text-5xl md:text-7xl
+            class="font-bold text-secondary-700 font-heading
+            @if ($isH1) text-6xl md:text-8xl
             @else
-                text-3xl md:text-5xl @endif
-            @if ($couleurPrimaire === 'primary-brush') prose-brush prose-brush-primary
+                text-4xl md:text-6xl @endif
+            @if ($couleurPrimaire === 'primary-brush') prose-strong:text-primary-500
             @elseif ($couleurPrimaire === 'secondary-brush')
                   prose-brush prose-brush-secondary
 

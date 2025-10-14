@@ -298,7 +298,7 @@ class PageForm
                 ['bold', 'italic', 'underline', 'strike', 'subscript', 'superscript', 'pageLink'],
                 ['h2', 'h3', 'alignStart', 'alignCenter', 'alignEnd'],
                 ['blockquote', 'codeBlock', 'bulletList', 'customOrderedList'],
-                ['undo', 'redo'],
+                ['undo', 'redo', 'clearFormatting'],
             ])
             ->plugins([PageLinkPlugin::make(), OrderedListPlugin::make()]);
     }
@@ -312,7 +312,7 @@ class PageForm
             ->label($label)
             ->required()
             ->toolbarButtons([
-                'bold',
+                'bold', 'clearFormatting'
             ]);
     }
 
@@ -329,6 +329,7 @@ class PageForm
                     ->options([
                         'primary' => 'Primaire',
                         'secondary' => 'Secondaire',
+                        'tertiary' => 'Tertiaire',
                     ])
                     ->default('primary')
                     ->required(),

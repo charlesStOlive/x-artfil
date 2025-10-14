@@ -22,9 +22,9 @@
     @if ($directionCouleur !== 'aucun')
         <div
             class="absolute inset-0 
-            @if ($directionCouleur === 'primaire-secondaire') bg-gradient-to-br from-primary-500/40 to-secondary-500/40
+            @if ($directionCouleur === 'primaire-secondaire') 
             @else
-                bg-gradient-to-br from-secondary-500/40 to-primary-500/40 @endif">
+                 @endif">
         </div>
     @endif
 
