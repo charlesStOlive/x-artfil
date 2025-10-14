@@ -88,6 +88,13 @@ return [
             'retry_after' => 60,
         ],
 
+        'mailgun' => [
+            'transport' => 'mailgun',
+            // 'client' => [
+            //     'timeout' => 5,
+            // ],
+        ],
+
         'roundrobin' => [
             'transport' => 'roundrobin',
             'mailers' => [

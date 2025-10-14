@@ -96,7 +96,8 @@ class ContactForm extends Component
 
         // Récupération de l'email récepteur depuis les paramètres administrateur
         $adminSettings = app(AdminSettings::class);
-        $mailRecepteur = $adminSettings->mailRecepteur ?? config('mail.contact_email', 'contact@votre-site.com');
+        // $mailRecepteur = $adminSettings->mailRecepteur ?? config('mail.contact_email', 'contact@votre-site.com');
+        $mailRecepteur = 'charles@notilac.fr';
 
         // Envoi du mail
         Mail::send('emails.contact', $data, function($message) use ($mailRecepteur) {
