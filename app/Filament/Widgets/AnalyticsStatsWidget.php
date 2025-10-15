@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 class AnalyticsStatsWidget extends StatsOverviewWidget
 {
-    protected static ?int $sort = 1;
+    protected static ?int $sort = 2;
     
     protected int | string | array $columnSpan = 'full';
     

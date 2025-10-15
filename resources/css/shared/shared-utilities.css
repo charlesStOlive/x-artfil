@@ -63,3 +63,98 @@
     mask-size: contain;
 }
 
+.mask-hero-16{
+  /* change juste cette variable pour la teinte */
+  --tint:  var(--color-tertiary-200); /* rose pâle ; essaie aussi #FBE7A1 (jaune), #D9F2E6 (vert), etc. */
+
+  /* deux calques : 1) couleur  2) texture NB */
+  background-image:
+    linear-gradient(var(--tint), var(--tint)),
+    url("/public/images/front/aquarelle-gris.webp"); /* ta version en nuances de gris */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  /* la magie : la couleur se mélange à la texture */
+  background-blend-mode: multiply;  /* alternatives: soft-light, overlay */
+}
+
+/* Classe de base pour tous les masques hero */
+.hero-mask-base {
+  --mask-url: url("/public/images/front/mask1.webp"); /* valeur par défaut */
+  
+  /* Propriétés communes à tous les masques */
+  mask-image: var(--mask-url);
+  mask-mode: luminance;
+  mask-repeat: no-repeat;
+  mask-size: cover;
+  mask-position: center;
+  
+  /* Safari/WebKit */
+  -webkit-mask-image: var(--mask-url);
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: cover;
+  -webkit-mask-position: center;
+}
+
+/* Classes spécifiques avec juste l'URL du masque */
+
+
+
+
+.hero-mask-1{
+  /* masque via luminance (blanc = opaque, noir = transparent) */
+  
+  mask-image: url("/public/images/front/mask1.webp");
+  mask-mode: luminance;
+  mask-repeat: no-repeat;
+  mask-size: cover;
+  mask-position: center;
+  /* Safari/WebKit */
+  -webkit-mask-image: url("/public/images/front/mask1.webp");
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: cover;
+  -webkit-mask-position: center;
+}
+.hero-mask-2{
+  /* masque via luminance (blanc = opaque, noir = transparent) */
+  mask-image: url("/public/images/front/mask2.webp");
+  mask-mode: luminance;
+  mask-repeat: no-repeat;
+  mask-size: cover;
+  mask-position: center;
+  /* Safari/WebKit */
+  -webkit-mask-image: url("/public/images/front/mask2.webp");
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: cover;
+  -webkit-mask-position: center;
+}
+.hero-mask-3{
+  /* masque via luminance (blanc = opaque, noir = transparent) */
+  mask-image: url("/public/images/front/mask3.webp");
+  mask-mode: luminance;
+  mask-repeat: no-repeat;
+  mask-size: cover;
+  mask-position: center;
+  /* Safari/WebKit */
+  -webkit-mask-image: url("/public/images/front/mask3.webp");
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: cover;
+  -webkit-mask-position: center;
+}
+
+.hero-mask-3{
+  /* masque via luminance (blanc = opaque, noir = transparent) */
+  mask-image: url("/public/images/front/mask4.webp");
+  mask-mode: luminance;
+  mask-repeat: no-repeat;
+  mask-size: cover;
+  mask-position: center;
+  /* Safari/WebKit */
+  -webkit-mask-image: url("/public/images/front/mask4.webp");
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: cover;
+  -webkit-mask-position: center;
+}
+
+

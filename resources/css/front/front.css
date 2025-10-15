@@ -25,8 +25,10 @@
 
 /* Configuration des sources pour Tailwind */
 @source '../../../resources/views/layouts/front.blade.php';
+@source '../../../resources/views/layouts/front.blade.php';
 @source '../../../resources/views/front/**/*';
 @source '../../../resources/views/components/**/*';
+@source '../../../app/Filament/Resources/Pages/Schemas/PageForm.php';
 
 /* Configuration des fonts avec Tailwind v4 */
 @theme {

@@ -19,7 +19,12 @@
         'direction_couleur' => $data['direction_couleur'] ?? 'aucun',
         'is_hidden' => $data['is_hidden'] ?? false,
         'minH70vh' => $data['minH70vh'] ?? false,
+        'use_mask' =>  $data['use_mask'] ?? false,
+        'mask' => $data['mask'] ?? '',
+        'mask_color' => $data['mask_color'] ?? '',
     ];
+
+    
 @endphp
 
 {{-- Utilisation du composant section réutilisable avec classes spécifiques au hero --}}

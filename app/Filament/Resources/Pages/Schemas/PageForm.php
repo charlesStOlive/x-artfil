@@ -26,6 +26,7 @@ use Filament\Forms\Components\DateTimePicker;
 use App\Filament\Forms\Components\OptimizingFileUpload;
 use App\Filament\Forms\Components\RichEditor\Plugins\PageLinkPlugin;
 use App\Filament\Forms\Components\RichEditor\Plugins\OrderedListPlugin;
+use Filament\Forms\Components\Checkbox;
 
 class PageForm
 {
@@ -393,9 +394,10 @@ class PageForm
                     ->label('Couche de blanc')
                     ->helperText('La couche de blanc permet d\'ajuster la lisibilité du texte sur des images')
                     ->options([
-                        'aucun' => 'Aucun',
-                        'normal' => 'Normal',
-                        'fort' => 'Fort',
+                        '' => 'aucun',
+                        'bg-gradient-to-b from-white/30 to-white/70' => 'Noramal',
+                        'bg-gradient-to-b from-white/50 to-white/100 ' => 'Fort',
+                        'bg-gradient-to-l from-white/80 to-white/70 ' => 'Dense',
                     ])
                     ->default('normal'),
                 Select::make('direction_couleur')
@@ -406,6 +408,28 @@ class PageForm
                         'aucun' => 'Aucun',
                     ])
                     ->default('primaire-secondaire'),
+                Checkbox::make('use_mask')
+                    ->label('Utiliser un masque de couleurs')
+                    ->live(),
+                Select::make('mask')
+                    ->label('Masque')
+                    ->selectablePlaceholder(false)
+                    ->options([
+                        'hero-mask-1' => 'M1',
+                        'hero-mask-2' => 'M2',
+                        'hero-mask-3' => 'M3',
+                        'hero-mask-4' => 'M4',
+                    ])->hidden(fn($get) => !$get('use_mask')),
+                Select::make('mask_color')
+                    ->label('Couleur du masque')
+                    ->options([
+                        'bg-primary-500' => 'Primaire',
+                        'bg-primary-200' => 'Primaire Claire',
+                        'bg-secondary-500' => 'Secondaire ',
+                        'bg-secondary-200' => 'Secondaire Claire',
+                        'bg-tertiary-500' => 'Tertiaire ',
+                        'bg-tertiary-200' => 'Tertiaire Claire',
+                    ])->hidden(fn($get) => !$get('use_mask')),
             ])->columnSpan(1);
     }
 

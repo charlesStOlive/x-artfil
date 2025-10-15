@@ -4,15 +4,19 @@ namespace App\Livewire\Front;
 
 use App\Models\Page;
 use Livewire\Component;
+use App\Livewire\Concerns\HandlesConstructionMode;
 
 class StaticPages extends Component
 {
+    use HandlesConstructionMode;
 
     public $page;
     public $slug;
 
     public function mount($slug)
     {
+        $this->checkConstruction();
+        
         $this->slug = $slug;
         // Récupérer la page par slug ou afficher 404
         $this->page = Page::where('slug', $slug)->first();

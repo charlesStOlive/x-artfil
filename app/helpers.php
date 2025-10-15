@@ -14,16 +14,20 @@ if (!function_exists('admin_settings')) {
 
 if (!function_exists('admin_setting')) {
     /**
-     * Get a specific admin setting value
+     * Get a specific admin setting value with support for nested arrays using dot notation
      *
-     * @param string $key
-     * @param mixed $default
+     * @param string $key Key supports dot notation (e.g., 'construction.activate')
+     * @param mixed $default Default value if key not found
      * @return mixed
      */
     function admin_setting(string $key, $default = null)
     {
         $settings = admin_settings();
         
-        return $settings->{$key} ?? $default;
+        // Use Arr::get for clean dot notation support
+        return \Illuminate\Support\Arr::get($settings->toArray(), $key, $default);
     }
 }
+
+
+

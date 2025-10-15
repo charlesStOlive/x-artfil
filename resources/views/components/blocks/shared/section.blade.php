@@ -4,37 +4,45 @@
     'class' => '',
     'mode' => 'front',
     'separator' => false,
-    'couleurPrimaire' =>  'primary',
+    'couleurPrimaire' => 'primary',
 ])
 
 @php
+    \Log::info($data);
     $backgroundImage = $data['background_image'] ?? null;
     $coucheBlanc = $data['couche_blanc'] ?? 'aucun';
     $directionCouleur = $data['direction_couleur'] ?? 'aucun';
+    $useMask =  $data['use_mask'] ?? false;
+    $mask = $data['mask'] ?? '';
+    $maskColor = $data['mask_color'] ?? '';
+
     $is_hidden = $data['is_hidden'] ?? false;
     $minH70vh = $data['minH70vh'] ?? false;
 @endphp
 
 <section {{ $anchor ? 'id=' . $anchor : '' }}
-    class="{{ $mode === 'preview' ? 'min-h-[120px]' : '' }} relative p-8 md:p-16 {{ $minH70vh ? 'min-h-[70vh]' : '' }} {{ $backgroundImage ? 'bg-cover bg-center' : 'bg-white' }} {{ $class }} flex items-center"
+    class="{{ $mode === 'preview' ? 'min-h-[120px]' : '' }} relative p-8 md:p-16 {{ $minH70vh ? 'min-h-[70vh]' : '' }} {{ $class }} 
+    {{ $backgroundImage ? 'bg-cover bg-center' : 'bg-white' }} flex items-center"
     @if ($backgroundImage) style="background-image: url('{{ $backgroundImage }}')" @endif>
 
     {{-- Overlays pour image de fond de section --}}
-    @if ($directionCouleur !== 'aucun')
-        <div
+    
+        <div  
             class="absolute inset-0 
+            
             @if ($directionCouleur === 'primaire-secondaire') 
+                
             @else
-                 @endif">
+                
+            @endif
+            
+            @if ($useMask) {{ $maskColor }}  {{ $mask }}  @endif">
         </div>
-    @endif
+
 
     @if ($coucheBlanc !== 'aucun')
         <div
-            class="absolute inset-0 
-            @if ($coucheBlanc === 'normal') bg-gradient-to-b from-white/30 to-white/70
-            @else
-                bg-gradient-to-b from-white/50 to-white/100 @endif">
+            class="absolute inset-0 {{ $coucheBlanc }}">
         </div>
     @endif
 
@@ -45,7 +53,8 @@
 
     @if ($separator)
         <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2">
-            <div class="w-64 h-1 {{ $couleurPrimaire === 'primary' ? 'bg-primary-500' : 'bg-secondary-500' }} rounded-full">
+            <div
+                class="w-64 h-1 {{ $couleurPrimaire === 'primary' ? 'bg-primary-500' : 'bg-secondary-500' }} rounded-full">
             </div>
         </div>
     @endif

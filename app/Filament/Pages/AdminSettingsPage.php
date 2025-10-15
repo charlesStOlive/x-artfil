@@ -11,6 +11,8 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Toggle;
+use Filament\Schemas\Components\Group;
 
 class AdminSettingsPage extends SettingsPage
 {
@@ -64,7 +66,7 @@ class AdminSettingsPage extends SettingsPage
                     ])
                     ->columns(2),
 
-                Section::make('Branding')
+                Section::make('Apparence et branding')
                     ->description('Personnalisez l\'apparence de votre site')
                     ->schema([
                         FileUpload::make('logo')
@@ -75,6 +77,39 @@ class AdminSettingsPage extends SettingsPage
                             ->acceptedFileTypes(['image/png', 'image/jpg', 'image/jpeg', 'image/svg+xml'])
                             ->maxSize(2048)
                             ->helperText('Formats acceptés: PNG, JPG, JPEG, SVG. Taille maximum: 2MB'),
+
+                        Textarea::make('footerText')
+                            ->label('Texte du footer')
+                            ->required()
+                            ->rows(2)
+                            ->placeholder('Copyright © 2025. Tous droits réservés.')
+                            ->helperText('Texte affiché dans le pied de page du site'),
+                    ])
+                    ->columns(1),
+
+                Section::make('Mode maintenance')
+                    ->description('Configurez le mode maintenance de votre site')
+                    ->schema([
+                        Toggle::make('construction.activate')
+                            ->label('Activer le mode maintenance')
+                            ->helperText('Lorsque activé, seuls les administrateurs peuvent voir le site')
+                            ->live(),
+
+                        Group::make()
+                            ->schema([
+                                TextInput::make('construction.titre')
+                                    ->label('Titre de la page de maintenance')
+                                    ->required()
+                                    ->placeholder('Site en maintenance'),
+
+                                Textarea::make('construction.description')
+                                    ->label('Description de la maintenance')
+                                    ->required()
+                                    ->rows(3)
+                                    ->placeholder('Nous travaillons actuellement sur notre site. Nous serons de retour bientôt !'),
+                            ])
+                            ->visible(fn (callable $get) => $get('construction.activate'))
+                            ->columns(1),
                     ]),
             ]);
     }

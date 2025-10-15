@@ -4,15 +4,19 @@ namespace App\Livewire\Front;
 
 use App\Models\Page;
 use Livewire\Component;
+use App\Livewire\Concerns\HandlesConstructionMode;
 
 class HomePage extends Component
 {
+    use HandlesConstructionMode;
 
     public $page;
     public $slug;
 
     public function mount($slug = 'home')
     {
+        $this->checkConstruction();
+        
         $this->slug = $slug;
         
         // Récupérer la page par slug ou afficher 404
