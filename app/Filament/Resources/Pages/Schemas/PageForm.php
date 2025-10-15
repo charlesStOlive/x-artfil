@@ -27,6 +27,7 @@ use App\Filament\Forms\Components\OptimizingFileUpload;
 use App\Filament\Forms\Components\RichEditor\Plugins\PageLinkPlugin;
 use App\Filament\Forms\Components\RichEditor\Plugins\OrderedListPlugin;
 use Filament\Forms\Components\Checkbox;
+use Illuminate\Support\Str;
 
 class PageForm
 {
@@ -219,7 +220,15 @@ class PageForm
                     Section::make('Détails de la page')
                         ->schema([
                             TextInput::make('titre')
-                                ->required(),
+                                ->required()
+                                ->live(onBlur: true)
+                                ->afterStateUpdated(function (string $operation, $state, $set) {
+                                    if ($operation !== 'create') {
+                                        return;
+                                    }
+
+                                    $set('slug', Str::slug($state));
+                                }),
                             TextInput::make('slug')
                                 ->required()
                                 ->suffixAction(self::getPreviewAction()),
@@ -351,9 +360,9 @@ class PageForm
                             ...\App\Models\Page::pluck('titre', 'slug')->toArray()
                         ])
                         ->default('same_page')
-                        ->selectablePlaceholder(false)
                         ->visible(fn($get) => $get('type_lien') === 'page')
-                        ->live(),
+                        ->live()
+                        ->required(fn($get) => $get('type_lien') === 'page'),
                     TextInput::make('ancre')
                         ->label('Ancre')
                         ->placeholder('ex: #ma-section')
@@ -377,8 +386,20 @@ class PageForm
 
     public static function getGridBgImage(): Grid
     {
-        return  Grid::make(1)
+        return Grid::make(1)
+            ->statePath('background_datas')
             ->schema([
+                Select::make('mode')
+                    ->label('Mode de fond')
+                    ->options([
+                        'aucun' => 'Aucun',
+                        'image' => 'Image de fond et/ou dégradés',
+                        'filtre' => 'Filtre',
+                    ])
+                    ->default('aucun')
+                    ->live()
+                    ->required(),
+                    
                 OptimizingFileUpload::make('image_background')
                     ->label('Image de fond')
                     ->disk('public')
@@ -389,47 +410,57 @@ class PageForm
                     ->jpegQuality(85)
                     ->image()
                     ->imageEditor()
-                    ->autoHelperText(),
+                    ->autoHelperText()
+                    ->visible(fn($get) => $get('mode') === 'image'),
+                    
                 Select::make('couche_blanc')
                     ->label('Couche de blanc')
                     ->helperText('La couche de blanc permet d\'ajuster la lisibilité du texte sur des images')
                     ->options([
-                        '' => 'aucun',
-                        'bg-gradient-to-b from-white/30 to-white/70' => 'Noramal',
-                        'bg-gradient-to-b from-white/50 to-white/100 ' => 'Fort',
-                        'bg-gradient-to-l from-white/80 to-white/70 ' => 'Dense',
+                        'aucun' => 'Aucun',
+                        'bg-gradient-to-b from-white/30 to-white/70' => 'Normal',
+                        'bg-gradient-to-b from-white/50 to-white/100' => 'Fort',
+                        'bg-gradient-to-l from-white/80 to-white/70' => 'Dense',
                     ])
-                    ->default('normal'),
-                Select::make('direction_couleur')
-                    ->label('Direction des couleurs')
+                    ->default('aucun')
+                    ->visible(fn($get) => $get('mode') === 'image'),
+                    
+                Select::make('gradients')
+                    ->label('dégradés de couleurs')
                     ->options([
-                        'primaire-secondaire' => 'Primaire vers secondaire',
-                        'secondaire-primaire' => 'Secondaire vers primaire',
+                        'bg-gradient-to-r from-primary-500 to-secondary-500' => 'Primaire vers secondaire (horizontal)',
+                        'bg-gradient-to-b from-primary-500 to-secondary-500' => 'Primaire vers secondaire (vertical)',
+                        'bg-gradient-to-br from-primary-500 via-secondary-500 to-tertiary-500' => 'Primaire → Secondaire → Tertiaire (diagonal)',
+                        'bg-gradient-to-t from-secondary-500 to-primary-500' => 'Secondaire vers primaire (montant)',
+                        'bg-gradient-to-bl from-tertiary-500 via-primary-500 to-secondary-500' => 'Tertiaire → Primaire → Secondaire (diagonal inverse)',
                         'aucun' => 'Aucun',
                     ])
-                    ->default('primaire-secondaire'),
-                Checkbox::make('use_mask')
-                    ->label('Utiliser un masque de couleurs')
-                    ->live(),
+                    ->default('aucun')
+                    ->visible(fn($get) => $get('mode') === 'image'),
+                    
                 Select::make('mask')
                     ->label('Masque')
-                    ->selectablePlaceholder(false)
+                    ->default('hero-mask-1')
                     ->options([
                         'hero-mask-1' => 'M1',
                         'hero-mask-2' => 'M2',
                         'hero-mask-3' => 'M3',
                         'hero-mask-4' => 'M4',
-                    ])->hidden(fn($get) => !$get('use_mask')),
+                    ])
+                    ->visible(fn($get) => $get('mode') === 'filtre')
+                    ->required(fn($get) => $get('mode') === 'filtre'),
+                    
                 Select::make('mask_color')
                     ->label('Couleur du masque')
                     ->options([
                         'bg-primary-500' => 'Primaire',
                         'bg-primary-200' => 'Primaire Claire',
-                        'bg-secondary-500' => 'Secondaire ',
+                        'bg-secondary-500' => 'Secondaire',
                         'bg-secondary-200' => 'Secondaire Claire',
-                        'bg-tertiary-500' => 'Tertiaire ',
+                        'bg-tertiary-500' => 'Tertiaire',
                         'bg-tertiary-200' => 'Tertiaire Claire',
-                    ])->hidden(fn($get) => !$get('use_mask')),
+                    ])
+                    ->visible(fn($get) => $get('mode') === 'filtre'),
             ])->columnSpan(1);
     }
 
@@ -452,6 +483,10 @@ class PageForm
                         'secondary' => 'Secondaire uniquement',
                     ])
                     ->default('alternance'),
+                Toggle::make('minH70vh')
+                    ->label('Hauteur minimale 70vh')
+                    ->helperText('Définit une hauteur minimale de 70% de la hauteur de l\'écran')
+                    ->default(false),
                 Toggle::make('afficher_separateur')
                     ->label('Afficher un séparateur')
                     ->helperText('Affiche une ligne de séparation sous le contenu')
@@ -520,6 +555,7 @@ class PageForm
                     'md' => 2
                 ])->schema([
                     Grid::make(1)
+                        ->statePath('ambiance')
                         ->schema([
                             Select::make('couleur_primaire')
                                 ->label('Couleur du titre')
@@ -559,6 +595,7 @@ class PageForm
                     'md' => 2
                 ])->schema([
                     Grid::make(1)
+                        ->statePath('ambiance')
                         ->schema([
                             Select::make('couleur_primaire')
                                 ->label('Couleur du titre')

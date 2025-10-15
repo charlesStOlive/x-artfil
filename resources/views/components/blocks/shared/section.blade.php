@@ -1,24 +1,28 @@
 @props([
-    'data' => [],
+    'backgroundDatas' => [],
+    'ambiance' => [],
     'anchor' => null,
     'class' => '',
     'mode' => 'front',
-    'separator' => false,
-    'couleurPrimaire' => 'primary',
 ])
 
 @php
-    \Log::info($data);
-    $backgroundImage = $data['background_image'] ?? null;
-    $coucheBlanc = $data['couche_blanc'] ?? 'aucun';
-    $directionCouleur = $data['direction_couleur'] ?? 'aucun';
-    $useMask =  $data['use_mask'] ?? false;
-    $mask = $data['mask'] ?? '';
-    $maskColor = $data['mask_color'] ?? '';
+    \Log::info('ambiance in section');    
+    \Log::info($ambiance);
+    $backgroundMode = $backgroundDatas['mode'] ?? 'aucun';
+    $backgroundImage = ($backgroundMode === 'image') ? ($backgroundDatas['image_background'] ?? null) : null;
+    $coucheBlanc = ($backgroundMode === 'image') ? ($backgroundDatas['couche_blanc'] ?? 'aucun') : 'aucun';
+    $gradients = $backgroundDatas['gradients'] ?? 'aucun';
+    $useMask = ($backgroundMode === 'filtre');
+    $mask = ($backgroundMode === 'filtre') ? ($backgroundDatas['mask'] ?? '') : '';
+    $maskColor = ($backgroundMode === 'filtre') ? ($backgroundDatas['mask_color'] ?? '') : '';
 
-    $is_hidden = $data['is_hidden'] ?? false;
-    $minH70vh = $data['minH70vh'] ?? false;
-@endphp
+    $is_hidden = $ambiance['is_hidden'] ?? false;
+    $minH70vh = $ambiance['minH70vh'] ?? false;
+    $separator = $ambiance['afficher_separateur'] ?? false;
+    $couleurPrimaire = $ambiance['couleur_primaire'] ?? 'primary';
+    
+@endphp  
 
 <section {{ $anchor ? 'id=' . $anchor : '' }}
     class="{{ $mode === 'preview' ? 'min-h-[120px]' : '' }} relative p-8 md:p-16 {{ $minH70vh ? 'min-h-[70vh]' : '' }} {{ $class }} 
@@ -28,14 +32,7 @@
     {{-- Overlays pour image de fond de section --}}
     
         <div  
-            class="absolute inset-0 
-            
-            @if ($directionCouleur === 'primaire-secondaire') 
-                
-            @else
-                
-            @endif
-            
+            class="absolute inset-0 {{ $gradients }}
             @if ($useMask) {{ $maskColor }}  {{ $mask }}  @endif">
         </div>
 

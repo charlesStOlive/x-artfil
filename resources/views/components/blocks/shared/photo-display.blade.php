@@ -38,10 +38,10 @@
 
     // Classes d'image selon le type d'affichage
     $imageClasses = match($displayType) {
-        'mask_brush_square' => 'w-full h-full bg-contain bg-center mask-brush',
+        'mask_brush_square' => 'w-full h-full bg-cover bg-center mask-brush',
         'mask_brush_169' => 'w-full h-full bg-cover bg-center mask-brush-169',
         'full_cover' => 'w-full h-full object-cover ' . $positionClasses,
-        default => 'w-full h-full bg-contain bg-center mask-brush'
+        default => 'w-full h-full bg-cover  bg-center mask-brush'
     };
 @endphp
 

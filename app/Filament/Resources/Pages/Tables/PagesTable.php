@@ -3,7 +3,9 @@
 namespace App\Filament\Resources\Pages\Tables;
 
 use App\Filament\Actions\DuplicatePageAction;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\IconColumn;
@@ -59,7 +61,7 @@ class PagesTable
                     ->label('Publié le')
                     ->dateTime()
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
                     ->label('Créé le')
                     ->dateTime()
@@ -75,8 +77,26 @@ class PagesTable
                 //
             ])
             ->recordActions([
-                EditAction::make(),
-                DuplicatePageAction::make(),
+                EditAction::make()
+                    ->label('')
+                    ->icon('heroicon-o-pencil')
+                    ->tooltip('Modifier'),
+                DuplicatePageAction::make()
+                    ->label('')
+                    ->icon('heroicon-o-document-duplicate')
+                    ->tooltip('Dupliquer'),
+                Action::make('preview')
+                    ->label('')
+                    ->icon('heroicon-o-eye')
+                    ->tooltip('Voir la page')
+                    ->url(fn($record) => $record->slug ? route('page', ['slug' => $record->slug]) : null)
+                    ->openUrlInNewTab()
+                    ->color('gray')
+                    ->visible(fn($record) => $record->status === 'published'),
+                DeleteAction::make()
+                    ->label('')
+                    ->icon('heroicon-o-trash')
+                    ->tooltip('Supprimer'),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

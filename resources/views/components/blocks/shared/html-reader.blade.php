@@ -1,9 +1,15 @@
 @props([
     'content' => null,
+    'ambiance' => [],
     'couleurPrimaire' => 'secondary',
     'styleListes' => 'alternance',
     'class' => '',
 ])
+
+@php
+    $couleurPrimaire = $ambiance['couleur_primaire'] ?? 'secondary';
+    $styleListes = $ambiance['style_listes'] ?? 'alternance';
+@endphp
 
 
 <div

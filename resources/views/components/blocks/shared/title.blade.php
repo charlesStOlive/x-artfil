@@ -9,18 +9,20 @@
     <div class="text-center mx-auto  {{ $class }}">
         <div
             class="font-bold text-secondary-700 font-heading
-            @if ($isH1) text-6xl md:text-8xl
+            @if ($isH1) 
+                text-6xl md:text-8xl
             @else
-                text-4xl md:text-6xl @endif
-            @if ($couleurPrimaire === 'primary-brush') prose-strong:text-primary-500
+                text-4xl md:text-6xl 
+            @endif
+            @if ($couleurPrimaire === 'primary-brush') 
+                prose-brush prose-brush-primary
             @elseif ($couleurPrimaire === 'secondary-brush')
-                  prose-brush prose-brush-secondary
-
-                
-                @elseif ($couleurPrimaire === 'primary')
-                    prose-strong:text-primary-500
-                @elseif ($couleurPrimaire === 'secondary')
-                    prose-strong:text-secondary-500 @endif
+                prose-brush prose-brush-secondary
+            @elseif ($couleurPrimaire === 'primary')
+                prose-strong:text-primary-500
+            @elseif ($couleurPrimaire === 'secondary')
+                prose-strong:text-secondary-500 
+            @endif
 ">
             {!! $title !!}
         </div>

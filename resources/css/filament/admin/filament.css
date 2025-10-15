@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Poppins:wght@300;400;500;600&display=swap');
 @import "tailwindcss";
 @import '../../../../vendor/filament/filament/resources/css/theme.css';
 @import '../../shared/shared-utilities.css';
@@ -34,7 +34,7 @@
 
 @theme {
   --font-sans: 'Poppins', ui-sans-serif, system-ui, sans-serif;
-  --font-heading: 'Comfortaa', ui-sans-serif, system-ui, sans-serif;
+  --font-heading: 'Caveat', cursive;
   /* color-schema-console-generated-start */
   --color-primary-50: #faedeb;
   --color-primary-100: #f4dad7;

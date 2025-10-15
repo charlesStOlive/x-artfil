@@ -11,24 +11,20 @@
     } else {
         $data = \App\Services\BlockDataParser::fromBlockData($data, $mode, $page);
     }
+    $ambiance = $data['ambiance'] ?? [];
+    $backgroundDatas = $data['background_datas'] ?? [];
 
-    // Section styles pour le composant section
-    $sectionStyles = [
-        'background_image' => $data['image_background'] ?? null,
-        'couche_blanc' => $data['couche_blanc'] ?? 'aucun',
-        'direction_couleur' => $data['direction_couleur'] ?? 'aucun',
-        'is_hidden' => $data['is_hidden'] ?? false,
-    ];
+   
 @endphp
 
 {{-- Utilisation du composant section réutilisable --}}
-<x-blocks.shared.section :data="$sectionStyles" :anchor="$data['anchor'] ?? ''">
+<x-blocks.shared.section :backgroundDatas="$backgroundDatas" :ambiance="$ambiance" :anchor="$data['anchor'] ?? ''" :mode="$mode" >
     <div>
         <div class="mx-auto relative z-2 max-w-7xl  px-4 sm:px-6 lg:px-8 ">
             @if (($data['html_title'] ?? null) || ($data['description'] ?? null))
                 <div class="text-center mb-16">
                     @if ($data['html_title'] ?? null)
-                        <x-blocks.shared.title :title="$data['html_title']" :couleur-primaire="$data['couleur_primaire'] ?? 'secondary'" />
+                        <x-blocks.shared.title :title="$data['html_title']" :couleur-primaire="$ambiance['couleur_primaire'] ?? 'secondary'" />
                     @endif
                     @if ($data['description'] ?? null)
                         <x-blocks.shared.description :description="$data['description']" />
